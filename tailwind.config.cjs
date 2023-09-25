@@ -9,6 +9,7 @@ module.exports = {
 	theme: {
 		extend: {},
 	},
+	safelist: ['grid-cols-2'],
 	plugins: [
 		require('@tailwindcss/typography'),
 		nextui()

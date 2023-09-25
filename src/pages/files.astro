@@ -1,0 +1,11 @@
+---
+import Layout from '../layouts/Layout.astro';
+import {getFiles} from "../sanity/queries/get-files";
+import {Files} from "../components/routes/files/files";
+
+const files = await getFiles();
+---
+
+<Layout title="Files" description="Covenants and files for Sterett Creek Village Trustee">
+    <Files files={files} />
+</Layout>

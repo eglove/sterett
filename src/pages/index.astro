@@ -1,0 +1,11 @@
+---
+import Layout from '../layouts/Layout.astro';
+import {getPage} from "../sanity/queries/get-page";
+import {Index} from "../components/routes";
+
+const data = await getPage('home');
+---
+
+<Layout title="Home" description="Homepage of the Sterett Creek Village Trustee Board">
+    <Index content={data.content} client:idle/>
+</Layout>

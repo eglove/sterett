@@ -1,11 +1,14 @@
 ---
-import {getAllPages} from "../sanity/queries/get-all-pages";
+import { Pages } from "../components/routes/page/pages";
 import Layout from "../layouts/Layout.astro";
-import {Pages} from "../components/routes/page/pages";
+import { getAllPages } from "../sanity/queries/get-all-pages";
 
 const pages = await getAllPages();
 ---
 
-<Layout title="Pages" description="Additional pages for Sterett Creek Village Trustee">
-    <Pages pages={pages} />
+<Layout
+  description="Additional pages for Sterett Creek Village Trustee"
+  title="Pages"
+>
+  <Pages pages={pages} />
 </Layout>

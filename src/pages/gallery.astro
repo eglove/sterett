@@ -1,14 +1,14 @@
 ---
+import { Gallery } from "../components/routes/gallery/gallery";
 import Layout from "../layouts/Layout.astro";
-import {Gallery} from "../components/routes/gallery/gallery";
-import {getGalleryImages} from "../sanity/queries/get-gallery-images";
+import { getGalleryImages } from "../sanity/queries/get-gallery-images";
 
 const images = await getGalleryImages();
 ---
 
 <Layout
-        description="Pictures from Sterett Creek Village Trustee"
-        title="Gallery"
+  description="Pictures from Sterett Creek Village Trustee"
+  title="Gallery"
 >
-    <Gallery images={images} />
+  <Gallery images={images} />
 </Layout>

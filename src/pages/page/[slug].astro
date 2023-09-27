@@ -1,16 +1,17 @@
 ---
-import {getPage} from "../../sanity/queries/get-page";
-import {Container} from "../../components/container";
+import { Page } from "../../components/routes/page/page";
 import Layout from "../../layouts/Layout.astro";
-import {Page} from "../../components/routes/page/page";
+import { getPage } from "../../sanity/queries/get-page";
 
 const { slug } = Astro.params;
 
-if (slug === undefined) return Astro.redirect("/404");
+let page;
 
-const page = await getPage(slug);
+if (slug !== undefined) {
+  page = await getPage(slug);
+}
 ---
 
-<Layout title={page?.title} description={page?.title}>
-    <Page content={page?.content} />
+<Layout description={page?.title} title={page?.title}>
+  <Page content={page?.content} />
 </Layout>

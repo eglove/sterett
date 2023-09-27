@@ -8,7 +8,7 @@ import {
 } from '@nextui-org/navbar';
 import { Link } from '@nextui-org/react';
 import type { JSX } from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const navUrls = [
   {
@@ -43,6 +43,10 @@ export function Navigation({
   pathName,
 }: NavigationProperties): JSX.Element {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [pathName]);
 
   return (
     <Navbar

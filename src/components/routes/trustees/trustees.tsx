@@ -1,25 +1,26 @@
 import { Link } from '@nextui-org/link';
 import { User } from '@nextui-org/user';
-import lodash from 'lodash';
 import type { JSX } from 'react';
 
 import type { getTrustees } from '../../../sanity/queries/get-trustees.ts';
 import { Container } from '../../container.tsx';
 
-type AvatarColor = 'warning' | 'secondary' | 'danger' | 'primary' | 'success';
-const colorValues: AvatarColor[] = lodash.shuffle([
-  'warning',
-  'secondary',
-  'danger',
-  'primary',
-  'success',
-]);
+export type AvatarColor =
+  | 'warning'
+  | 'secondary'
+  | 'danger'
+  | 'primary'
+  | 'success';
 
 type TrusteesProperties = {
+  readonly colorValues: AvatarColor[];
   readonly trustees: Awaited<ReturnType<typeof getTrustees>>;
 };
 
-export function Trustees({ trustees }: TrusteesProperties): JSX.Element {
+export function Trustees({
+  trustees,
+  colorValues,
+}: TrusteesProperties): JSX.Element {
   return (
     <Container>
       <div className="grid gap-4 md:grid-cols-3">

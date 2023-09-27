@@ -2,7 +2,7 @@ import { DateTime } from 'luxon';
 import type { JSX } from 'react';
 
 import type { getCalendarEvents } from '../../../sanity/queries/get-calendar-events';
-import { CalendarView } from './calendar-view';
+import { CalendarView } from './calendar-view.tsx';
 
 type CalendarProperties = {
   readonly calendarEvents: Awaited<ReturnType<typeof getCalendarEvents>>;

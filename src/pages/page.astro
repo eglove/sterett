@@ -1,0 +1,11 @@
+---
+import {getAllPages} from "../sanity/queries/get-all-pages";
+import Layout from "../layouts/Layout.astro";
+import {Pages} from "../components/routes/page/pages";
+
+const pages = await getAllPages();
+---
+
+<Layout title="Pages" description="Additional pages for Sterett Creek Village Trustee">
+    <Pages pages={pages} />
+</Layout>

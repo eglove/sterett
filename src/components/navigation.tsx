@@ -42,7 +42,6 @@ export function Navigation({
   imagesAmount,
   pathName,
 }: NavigationProperties): JSX.Element {
-  console.log(imagesAmount === 0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (

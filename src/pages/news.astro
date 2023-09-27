@@ -1,11 +1,14 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import {News} from "../components/routes/news/news";
-import {getNewsAndEvents} from "../sanity/queries/get-news-and-events";
+import { News } from "../components/routes/news/news";
+import Layout from "../layouts/Layout.astro";
+import { getNewsAndEvents } from "../sanity/queries/get-news-and-events";
 
 const data = await getNewsAndEvents();
 ---
 
-<Layout title="News" description="News and Event Updates for Sterett Creek Village Trustee">
-    <News data={data} />
+<Layout
+  description="News and Event Updates for Sterett Creek Village Trustee"
+  title="News"
+>
+  <News data={data} />
 </Layout>

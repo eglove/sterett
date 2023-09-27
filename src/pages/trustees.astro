@@ -1,11 +1,14 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import {getTrustees} from "../sanity/queries/get-trustees";
-import {Trustees} from "../components/routes/trustees/trustees";
+import { Trustees } from "../components/routes/trustees/trustees";
+import Layout from "../layouts/Layout.astro";
+import { getTrustees } from "../sanity/queries/get-trustees";
 
 const trustees = await getTrustees();
 ---
 
-<Layout title="Trustees" description="Trustee contact information for Sterett Creek Village Trustee Board">
-    <Trustees client:load trustees={trustees} />
+<Layout
+  description="Trustee contact information for Sterett Creek Village Trustee Board"
+  title="Trustees"
+>
+  <Trustees client:idle trustees={trustees} />
 </Layout>

@@ -1,11 +1,14 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import {getCalendarEvents} from "../sanity/queries/get-calendar-events";
-import {Calendar} from "../components/routes/calendar/calendar";
+import { Calendar } from "../components/routes/calendar/calendar";
+import Layout from "../layouts/Layout.astro";
+import { getCalendarEvents } from "../sanity/queries/get-calendar-events";
 
 const calendarEvents = await getCalendarEvents();
 ---
 
-<Layout title="Calendar" description="Events calendar for Sterett Creek Village Trustee">
-    <Calendar client:idle calendarEvents={calendarEvents} />
+<Layout
+  description="Events calendar for Sterett Creek Village Trustee"
+  title="Calendar"
+>
+  <Calendar client:idle calendarEvents={calendarEvents} />
 </Layout>

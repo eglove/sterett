@@ -1,51 +1,61 @@
 ---
-import {ViewTransitions} from 'astro:transitions';
-import {getGalleryImagesAmount} from "../sanity/queries/get-gallery-images-amount";
-import {Navigation} from "../components/navigation";
+import { ViewTransitions } from "astro:transitions";
 
-type Props = {
-    title?: string;
-    description: string;
-}
+import { Navigation } from "../components/navigation";
+import { getGalleryImagesAmount } from "../sanity/queries/get-gallery-images-amount";
 
-const {title, description} = Astro.props as Props;
-const {href, pathname} = Astro.url;
+type Properties = {
+  description: string;
+  title?: string;
+};
 
-const defaultTile = 'Sterett Creek Village Trustee';
-const titleString = title ? `${defaultTile} | ${title}` : defaultTile;
-const icon = new URL('apple-touch-icon.png', href).toString();
+const { title, description } = Astro.props as Properties;
+const { href, pathname } = Astro.url;
+
+const defaultTile = "Sterett Creek Village Trustee";
+const titleString =
+  title === undefined ? defaultTile : `${defaultTile} | ${title}`;
+const icon = new URL("apple-touch-icon.png", href).toString();
 
 const imagesAmount = await getGalleryImagesAmount();
 ---
 
 <!doctype html>
-<html lang="en-US" class="mx-auto min-h-screen max-w-7xl bg-gradient-to-b from-sky-600 to-sky-50">
-<head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width"/>
-    <link rel="icon" type="image/svg+xml" href="/favicon.ico"/>
-    <meta name="generator" content={Astro.generator}/>
+<html
+  className="mx-auto min-h-screen max-w-7xl bg-gradient-to-b from-sky-600 to-sky-50"
+  lang="en-US"
+>
+  <head>
+    <meta charset="utf8" />
+    <meta content="width=device-width" name="viewport" />
+    <link href="/favicon.ico" rel="icon" type="image/svg+xml" />
+    <meta content={Astro.generator} name="generator" />
     <title>{titleString}</title>
-    <meta name="description" content={description}/>
-    <link rel="manifest" href="/site.webmanifest"/>
-    <meta property="og:title" content={titleString}/>
-    <meta property="og:description" content={description}/>
-    <meta property="og:url" content={href}/>
-    <meta property="og:image" content={icon}/>
-    <meta name="twitter:card" content="summary"/>
-    <meta name="twitter:title" content={titleString}/>
-    <meta name="twitter:description" content={description}/>
-    <meta name="twitter:image" content={icon}/>
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" type="image/png"/>
-    <link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png"/>
-    <link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png"/>
-    <link rel="shortcut icon" href="/favicon.ico"/>
-    <ViewTransitions/>
-</head>
-<body>
-<Navigation client:load imagesAmount={imagesAmount} pathName={pathname} />
-<main>
-<slot/>
-</main>
-</body>
+    <meta content={description} name="description" />
+    <link href="/site.webmanifest" rel="manifest" />
+    <meta content={titleString} property="og:title" />
+    <meta content={description} property="og:description" />
+    <meta content={href} property="og:url" />
+    <meta content={icon} property="og:image" />
+    <meta content="summary" name="twitter:card" />
+    <meta content={titleString} name="twitter:title" />
+    <meta content={description} name="twitter:description" />
+    <meta content={icon} name="twitter:image" />
+    <link
+      href="/apple-touch-icon.png"
+      rel="apple-touch-icon"
+      sizes="180x180"
+      type="image/png"
+    />
+    <link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png" />
+    <link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png" />
+    <link href="/favicon.ico" rel="shortcut icon" />
+    <ViewTransitions />
+  </head>
+  <body>
+    <Navigation client:load imagesAmount={imagesAmount} pathName={pathname} />
+    <main>
+      <slot />
+    </main>
+  </body>
 </html>

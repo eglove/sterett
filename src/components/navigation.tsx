@@ -42,6 +42,7 @@ export function Navigation({
   imagesAmount,
   pathName,
 }: NavigationProperties): JSX.Element {
+  console.log(imagesAmount === 0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
@@ -77,7 +78,7 @@ export function Navigation({
         })}
         {imagesAmount > 0 && (
           <NavbarItem
-            className="font-bold text-sky-700"
+            className="text-sky-700"
             isActive={pathName === '/gallery'}
             key="gallery"
           >
@@ -89,7 +90,7 @@ export function Navigation({
         {navUrls.map(item => {
           return (
             <NavbarItem
-              className="font-bold text-sky-700"
+              className="text-sky-700"
               isActive={pathName === item.url}
               key={item.name}
             >
@@ -99,7 +100,7 @@ export function Navigation({
         })}
         {imagesAmount > 0 && (
           <NavbarItem
-            className="font-bold text-sky-700"
+            className="text-sky-700"
             isActive={pathName === '/gallery'}
             key="gallery"
           >

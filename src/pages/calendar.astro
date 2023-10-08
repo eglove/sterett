@@ -10,5 +10,5 @@ const calendarEvents = await getCalendarEvents();
   description="Events calendar for Sterett Creek Village Trustee"
   title="Calendar"
 >
-  <Calendar client:idle calendarEvents={calendarEvents} />
+  <Calendar client:load calendarEvents={calendarEvents} />
 </Layout>

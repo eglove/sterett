@@ -7,7 +7,7 @@ settings:
 dependencies:
   "@astrojs/cloudflare":
     specifier: ^7.5.3
-    version: 7.5.3(@types/node@20.8.5)(astro@3.3.0)
+    version: 7.5.3(@types/node@20.8.6)(astro@3.3.0)
   "@astrojs/react":
     specifier: ^3.0.3
     version: 3.0.3(@types/react-dom@18.2.13)(@types/react@18.2.28)(react-dom@18.2.0)(react@18.2.0)(vite@4.4.11)
@@ -69,8 +69,8 @@ dependencies:
     specifier: ^3.3.2
     version: 3.3.2
   "@types/node":
-    specifier: ^20.8.5
-    version: 20.8.5
+    specifier: ^20.8.6
+    version: 20.8.6
   "@types/react":
     specifier: ^18.2.28
     version: 18.2.28
@@ -82,7 +82,7 @@ dependencies:
     version: 18.2.13
   astro:
     specifier: ^3.3.0
-    version: 3.3.0(@types/node@20.8.5)(typescript@5.2.2)
+    version: 3.3.0(@types/node@20.8.6)(typescript@5.2.2)
   date-fns:
     specifier: ^2.30.0
     version: 2.30.0
@@ -148,7 +148,7 @@ packages:
       "@jridgewell/trace-mapping": 0.3.19
     dev: false
 
-  /@astrojs/cloudflare@7.5.3(@types/node@20.8.5)(astro@3.3.0):
+  /@astrojs/cloudflare@7.5.3(@types/node@20.8.6)(astro@3.3.0):
     resolution:
       {
         integrity: sha512-agkIveY7VGeUQEM0HuM2j6zTPMRwVrGVN+ALJ2ZemQNIp72SuUCQBvyalgiqeNqIgtrIL3X/FcwHCB2EImCpZQ==,
@@ -162,13 +162,13 @@ packages:
       "@miniflare/cache": 2.14.1
       "@miniflare/shared": 2.14.1
       "@miniflare/storage-memory": 2.14.1
-      astro: 3.3.0(@types/node@20.8.5)(typescript@5.2.2)
+      astro: 3.3.0(@types/node@20.8.6)(typescript@5.2.2)
       dotenv: 16.3.1
       esbuild: 0.19.4
       find-up: 6.3.0
       miniflare: 3.20231010.0
       tiny-glob: 0.2.9
-      vite: 4.4.11(@types/node@20.8.5)
+      vite: 4.4.11(@types/node@20.8.6)
     transitivePeerDependencies:
       - "@types/node"
       - bufferutil
@@ -212,7 +212,7 @@ packages:
       astro: ^3.3.0
     dependencies:
       "@astrojs/prism": 3.0.0
-      astro: 3.3.0(@types/node@20.8.5)(typescript@5.2.2)
+      astro: 3.3.0(@types/node@20.8.6)(typescript@5.2.2)
       github-slugger: 2.0.0
       import-meta-resolve: 3.0.0
       mdast-util-definitions: 6.0.0
@@ -272,7 +272,7 @@ packages:
       astro: ^3.2.4
       tailwindcss: ^3.0.24
     dependencies:
-      astro: 3.3.0(@types/node@20.8.5)(typescript@5.2.2)
+      astro: 3.3.0(@types/node@20.8.6)(typescript@5.2.2)
       autoprefixer: 10.4.16(postcss@8.4.31)
       postcss: 8.4.31
       postcss-load-config: 4.0.1(postcss@8.4.31)
@@ -3999,7 +3999,7 @@ packages:
         integrity: sha512-H3ZUx89KiPhYa9nalUXVVStSUFHuzYxt4yoazufpTTYW9rVUCzhh02V8CH2C8nE4libnK0UgFq5DFIe0DOhqow==,
       }
     dependencies:
-      "@types/node": 20.8.5
+      "@types/node": 20.8.6
     dev: false
 
   /@types/color-convert@2.0.1:
@@ -4196,10 +4196,10 @@ packages:
       "@types/unist": 2.0.8
     dev: false
 
-  /@types/node@20.8.5:
+  /@types/node@20.8.6:
     resolution:
       {
-        integrity: sha512-SPlobFgbidfIeOYlzXiEjSYeIJiOCthv+9tSQVpvk4PAdIIc+2SmjNVzWXk9t0Y7dl73Zdf+OgXKHX9XtkqUpw==,
+        integrity: sha512-eWO4K2Ji70QzKUqRy6oyJWUeB7+g2cRagT3T/nxYibYcT4y2BDL8lqolRXjTHmkZCdJfIPaY73KbJAZmcryxTQ==,
       }
     dependencies:
       undici-types: 5.25.3
@@ -4561,7 +4561,7 @@ packages:
       "@babel/plugin-transform-react-jsx-source": 7.22.5(@babel/core@7.23.2)
       "@types/babel__core": 7.20.2
       react-refresh: 0.14.0
-      vite: 4.4.11(@types/node@20.8.5)
+      vite: 4.4.11(@types/node@20.8.6)
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -4872,7 +4872,7 @@ packages:
       - supports-color
     dev: false
 
-  /astro@3.3.0(@types/node@20.8.5)(typescript@5.2.2):
+  /astro@3.3.0(@types/node@20.8.6)(typescript@5.2.2):
     resolution:
       {
         integrity: sha512-O3MsXULamxQMy6sBgv07iVe5teJ41o+9tVScB/Yo2Io0XwvLXVhjVrjAxKpulBcKpU3/LyOpVfj/x63fcONbPA==,
@@ -4930,7 +4930,7 @@ packages:
       tsconfck: 3.0.0-next.9(typescript@5.2.2)
       unist-util-visit: 4.1.2
       vfile: 5.3.7
-      vite: 4.4.11(@types/node@20.8.5)
+      vite: 4.4.11(@types/node@20.8.6)
       vitefu: 0.2.5(vite@4.4.11)
       which-pm: 2.1.1
       yargs-parser: 21.1.1
@@ -12421,7 +12421,7 @@ packages:
       vfile-message: 4.0.2
     dev: false
 
-  /vite@4.4.11(@types/node@20.8.5):
+  /vite@4.4.11(@types/node@20.8.6):
     resolution:
       {
         integrity: sha512-ksNZJlkcU9b0lBwAGZGGaZHCMqHsc8OpgtoYhsQ4/I2v5cnpmmmqe5pM4nv/4Hn6G/2GhTdj0DhZh2e+Er1q5A==,
@@ -12452,7 +12452,7 @@ packages:
       terser:
         optional: true
     dependencies:
-      "@types/node": 20.8.5
+      "@types/node": 20.8.6
       esbuild: 0.18.20
       postcss: 8.4.31
       rollup: 3.29.4
@@ -12471,7 +12471,7 @@ packages:
       vite:
         optional: true
     dependencies:
-      vite: 4.4.11(@types/node@20.8.5)
+      vite: 4.4.11(@types/node@20.8.6)
     dev: false
 
   /warning@4.0.3:

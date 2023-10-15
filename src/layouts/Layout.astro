@@ -1,6 +1,7 @@
 ---
 import { Navigation } from "../components/navigation";
 import { getGalleryImagesAmount } from "../sanity/queries/get-gallery-images-amount";
+import { ViewTransitions } from 'astro:transitions';
 
 type Properties = {
   description: string;
@@ -48,6 +49,7 @@ const imagesAmount = await getGalleryImagesAmount();
     <link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png" />
     <link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png" />
     <link href="/favicon.ico" rel="shortcut icon" />
+    <ViewTransitions />
   </head>
   <body>
     <Navigation client:load imagesAmount={imagesAmount} pathName={pathname} />

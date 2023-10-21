@@ -52,7 +52,7 @@
     "@types/react-dom": "^18.2.14",
     "astro": "^3.3.2",
     "date-fns": "^2.30.0",
-    "eslint-config-ethang": "^11.2.14",
+    "eslint-config-ethang": "^11.2.15",
     "framer-motion": "^10.16.4",
     "lodash": "^4.17.21",
     "luxon": "^3.4.3",

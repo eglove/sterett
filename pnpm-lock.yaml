@@ -7,13 +7,13 @@ settings:
 dependencies:
   "@astrojs/cloudflare":
     specifier: ^7.6.3
-    version: 7.6.3(@types/node@20.8.10)(astro@3.4.0)
+    version: 7.6.3(@types/node@20.8.10)(astro@3.4.1)
   "@astrojs/react":
     specifier: ^3.0.4
     version: 3.0.4(@types/react-dom@18.2.14)(@types/react@18.2.33)(react-dom@18.2.0)(react@18.2.0)(vite@4.5.0)
   "@astrojs/tailwind":
     specifier: ^5.0.2
-    version: 5.0.2(astro@3.4.0)(tailwindcss@3.3.5)
+    version: 5.0.2(astro@3.4.1)(tailwindcss@3.3.5)
   "@heroicons/react":
     specifier: ^2.0.18
     version: 2.0.18(react@18.2.0)
@@ -81,8 +81,8 @@ dependencies:
     specifier: ^18.2.14
     version: 18.2.14
   astro:
-    specifier: ^3.4.0
-    version: 3.4.0(@types/node@20.8.10)(typescript@5.2.2)
+    specifier: ^3.4.1
+    version: 3.4.1(@types/node@20.8.10)(typescript@5.2.2)
   date-fns:
     specifier: ^2.30.0
     version: 2.30.0
@@ -148,7 +148,7 @@ packages:
       "@jridgewell/trace-mapping": 0.3.20
     dev: false
 
-  /@astrojs/cloudflare@7.6.3(@types/node@20.8.10)(astro@3.4.0):
+  /@astrojs/cloudflare@7.6.3(@types/node@20.8.10)(astro@3.4.1):
     resolution:
       {
         integrity: sha512-X3Va4AIuQhoaVDaI5YxV1JMTPoNHVw6bGVpXqnT8byh0RTLfpjJPg8UdkdK57YW5Ow/73QqwvbJNZUVQlO6n+Q==,
@@ -159,7 +159,7 @@ packages:
       "@astrojs/underscore-redirects": 0.3.1
       "@cloudflare/workers-types": 4.20231025.0
       "@iarna/toml": 2.2.5
-      astro: 3.4.0(@types/node@20.8.10)(typescript@5.2.2)
+      astro: 3.4.1(@types/node@20.8.10)(typescript@5.2.2)
       dotenv: 16.3.1
       esbuild: 0.19.5
       find-up: 6.3.0
@@ -200,7 +200,7 @@ packages:
       }
     dev: false
 
-  /@astrojs/markdown-remark@3.3.0(astro@3.4.0):
+  /@astrojs/markdown-remark@3.3.0(astro@3.4.1):
     resolution:
       {
         integrity: sha512-ezFzEiZygc/ASe2Eul9v1yrTbNGqSbR348UGNXQ4Dtkx8MYRwfiBfmPm6VnEdfIGkW+bi5qIUReKfc7mPVUkIg==,
@@ -209,7 +209,7 @@ packages:
       astro: ^3.3.0
     dependencies:
       "@astrojs/prism": 3.0.0
-      astro: 3.4.0(@types/node@20.8.10)(typescript@5.2.2)
+      astro: 3.4.1(@types/node@20.8.10)(typescript@5.2.2)
       github-slugger: 2.0.0
       import-meta-resolve: 3.0.0
       mdast-util-definitions: 6.0.0
@@ -260,7 +260,7 @@ packages:
       - vite
     dev: false
 
-  /@astrojs/tailwind@5.0.2(astro@3.4.0)(tailwindcss@3.3.5):
+  /@astrojs/tailwind@5.0.2(astro@3.4.1)(tailwindcss@3.3.5):
     resolution:
       {
         integrity: sha512-oXqeqmBlkQmsltrsU9nEWeXOtrZIAHW8dcmX7BCdrjzPnU6dPwWzAwhddNQ9ihKiWwsLnlbwQZIo2CDigcZlIA==,
@@ -269,7 +269,7 @@ packages:
       astro: ^3.2.4
       tailwindcss: ^3.0.24
     dependencies:
-      astro: 3.4.0(@types/node@20.8.10)(typescript@5.2.2)
+      astro: 3.4.1(@types/node@20.8.10)(typescript@5.2.2)
       autoprefixer: 10.4.16(postcss@8.4.31)
       postcss: 8.4.31
       postcss-load-config: 4.0.1(postcss@8.4.31)
@@ -3956,10 +3956,10 @@ packages:
       "@types/ms": 0.7.33
     dev: false
 
-  /@types/estree@1.0.3:
+  /@types/estree@1.0.4:
     resolution:
       {
-        integrity: sha512-CS2rOaoQ/eAgAfcTfq6amKG7bsN+EMcgGY4FAFQdvSj2y1ixvOZTUA9mOtCai7E1SYu283XNw7urKK30nP3wkQ==,
+        integrity: sha512-2JwWnHK9H+wUZNorf2Zr6ves96WHoWDJIftkcxPKsS7Djta6Zu519LarhRNljPXkpsZR2ZMwNCPeW7omW07BJw==,
       }
     dev: false
 
@@ -4785,17 +4785,17 @@ packages:
       - supports-color
     dev: false
 
-  /astro@3.4.0(@types/node@20.8.10)(typescript@5.2.2):
+  /astro@3.4.1(@types/node@20.8.10)(typescript@5.2.2):
     resolution:
       {
-        integrity: sha512-nTOFxrPOnmACl8noTPkRJkaEOMx4wZy4QCLB2aDL3Lm+AiEaVcgH7YQ4GpCl72zSNXp/A7hGdUgcXbC4XYHOCQ==,
+        integrity: sha512-+9/jQ7puHDNUs+DN8bZFdlHwAIV9uTjmPyZn/yYXyhIM9dK32e60tvJQI1Bhcrh35PFBn8cZbMhVAWmraZpisg==,
       }
     engines: { node: ">=18.14.1", npm: ">=6.14.0" }
     hasBin: true
     dependencies:
       "@astrojs/compiler": 2.2.1
       "@astrojs/internal-helpers": 0.2.1
-      "@astrojs/markdown-remark": 3.3.0(astro@3.4.0)
+      "@astrojs/markdown-remark": 3.3.0(astro@3.4.1)
       "@astrojs/telemetry": 3.0.4
       "@babel/core": 7.23.2
       "@babel/generator": 7.23.0
@@ -4827,6 +4827,7 @@ packages:
       js-yaml: 4.1.0
       kleur: 4.1.5
       magic-string: 0.30.5
+      mdast-util-to-hast: 12.3.0
       mime: 3.0.0
       ora: 7.0.1
       p-limit: 4.0.0
@@ -4849,7 +4850,7 @@ packages:
       vitefu: 0.2.5(vite@4.5.0)
       which-pm: 2.1.1
       yargs-parser: 21.1.1
-      zod: 3.21.1
+      zod: 3.22.4
     optionalDependencies:
       sharp: 0.32.6
     transitivePeerDependencies:
@@ -6687,7 +6688,7 @@ packages:
         integrity: sha512-7RUKfXgSMMkzt6ZuXmqapOurLGPPfgj6l9uRZ7lRGolvk0y2yocc35LdcxKC5PQZdn2DMqioAQ2NoWcrTKmm6g==,
       }
     dependencies:
-      "@types/estree": 1.0.3
+      "@types/estree": 1.0.4
     dev: false
 
   /esutils@2.0.3:
@@ -7417,7 +7418,7 @@ packages:
       "@types/hast": 2.3.7
       "@types/unist": 2.0.9
       hastscript: 7.2.0
-      property-information: 6.3.0
+      property-information: 6.4.0
       vfile: 5.3.7
       vfile-location: 4.1.0
       web-namespaces: 2.0.1
@@ -7433,7 +7434,7 @@ packages:
       "@types/unist": 3.0.1
       devlop: 1.1.0
       hastscript: 8.0.0
-      property-information: 6.3.0
+      property-information: 6.4.0
       vfile: 6.0.1
       vfile-location: 5.0.2
       web-namespaces: 2.0.1
@@ -7510,7 +7511,7 @@ packages:
       hast-util-raw: 7.2.3
       hast-util-whitespace: 2.0.1
       html-void-elements: 2.0.1
-      property-information: 6.3.0
+      property-information: 6.4.0
       space-separated-tokens: 2.0.2
       stringify-entities: 4.0.3
       zwitch: 2.0.4
@@ -7530,7 +7531,7 @@ packages:
       hast-util-whitespace: 3.0.0
       html-void-elements: 3.0.0
       mdast-util-to-hast: 13.0.2
-      property-information: 6.3.0
+      property-information: 6.4.0
       space-separated-tokens: 2.0.2
       stringify-entities: 4.0.3
       zwitch: 2.0.4
@@ -7544,7 +7545,7 @@ packages:
     dependencies:
       "@types/hast": 2.3.7
       comma-separated-tokens: 2.0.3
-      property-information: 6.3.0
+      property-information: 6.4.0
       space-separated-tokens: 2.0.2
       web-namespaces: 2.0.1
       zwitch: 2.0.4
@@ -7559,7 +7560,7 @@ packages:
       "@types/hast": 3.0.2
       comma-separated-tokens: 2.0.3
       devlop: 1.1.0
-      property-information: 6.3.0
+      property-information: 6.4.0
       space-separated-tokens: 2.0.2
       web-namespaces: 2.0.1
       zwitch: 2.0.4
@@ -7590,7 +7591,7 @@ packages:
       "@types/hast": 2.3.7
       comma-separated-tokens: 2.0.3
       hast-util-parse-selector: 3.1.1
-      property-information: 6.3.0
+      property-information: 6.4.0
       space-separated-tokens: 2.0.2
     dev: false
 
@@ -7603,7 +7604,7 @@ packages:
       "@types/hast": 3.0.2
       comma-separated-tokens: 2.0.3
       hast-util-parse-selector: 4.0.0
-      property-information: 6.3.0
+      property-information: 6.4.0
       space-separated-tokens: 2.0.2
     dev: false
 
@@ -10214,10 +10215,10 @@ packages:
       react-is: 16.13.1
     dev: false
 
-  /property-information@6.3.0:
+  /property-information@6.4.0:
     resolution:
       {
-        integrity: sha512-gVNZ74nqhRMiIUYWGQdosYetaKc83x8oT41a0LlV3AAFCAZwCpg4vmGkq8t34+cUhp3cnM4XDiU/7xlgK7HGrg==,
+        integrity: sha512-9t5qARVofg2xQqKtytzt+lZ4d1Qvj8t5B8fEwXK6qOfgRLgH/b13QlgEyDh033NOS31nXeFbYv7CLUDG1CeifQ==,
       }
     dev: false
 
@@ -11225,10 +11226,10 @@ packages:
       - supports-color
     dev: false
 
-  /streamx@2.15.1:
+  /streamx@2.15.2:
     resolution:
       {
-        integrity: sha512-fQMzy2O/Q47rgwErk/eGeLu/roaFWV0jVsogDmrszM9uIw8L5OA+t+V93MgYlufNptfjmYR1tOMWhei/Eh7TQA==,
+        integrity: sha512-b62pAV/aeMjUoRN2C/9F0n+G8AfcJjNC0zw/ZmOHeFsIe4m4GzjVW9m6VHXVjk536NbdU9JRwKMJRfkc+zUFTg==,
       }
     requiresBuild: true
     dependencies:
@@ -11612,7 +11613,7 @@ packages:
     dependencies:
       b4a: 1.6.4
       fast-fifo: 1.3.2
-      streamx: 2.15.1
+      streamx: 2.15.2
     dev: false
     optional: true
 
@@ -12583,13 +12584,6 @@ packages:
       cookie: 0.5.0
       mustache: 4.2.0
       stacktracey: 2.1.8
-    dev: false
-
-  /zod@3.21.1:
-    resolution:
-      {
-        integrity: sha512-+dTu2m6gmCbO9Ahm4ZBDapx2O6ZY9QSPXst2WXjcznPMwf2YNpn3RevLx4KkZp1OPW/ouFcoBtBzFz/LeY69oA==,
-      }
     dev: false
 
   /zod@3.22.4:

@@ -1,6 +1,6 @@
 import { projectBuilder } from "@ethang/project-builder/project-builder.js";
 
-await projectBuilder("sterett", "main", {
+await projectBuilder("sterett", "master", {
   preVersionBumpScripts: ["UPDATE", "PRUNE"],
   postVersionBumpScripts: ["DEDUPE", "LINT", "BUILD"],
   isIgnoringBuild: true,

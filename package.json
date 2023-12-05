@@ -53,7 +53,7 @@
     "astro": "^3.6.4",
     "date-fns": "^2.30.0",
     "eslint-config-ethang": "^11.5.17",
-    "framer-motion": "^10.16.12",
+    "framer-motion": "^10.16.14",
     "lodash": "^4.17.21",
     "luxon": "^3.4.4",
     "moment": "^2.29.4",

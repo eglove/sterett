@@ -46,14 +46,14 @@
     "@tailwindcss/typography": "^0.5.10",
     "@types/lodash": "^4.14.202",
     "@types/luxon": "^3.3.7",
-    "@types/node": "^20.10.3",
+    "@types/node": "^20.10.4",
     "@types/react": "^18.2.42",
     "@types/react-big-calendar": "^1.8.6",
     "@types/react-dom": "^18.2.17",
     "astro": "^4.0.3",
     "date-fns": "^2.30.0",
-    "eslint-config-ethang": "^11.5.18",
-    "framer-motion": "^10.16.14",
+    "eslint-config-ethang": "^11.5.19",
+    "framer-motion": "^10.16.15",
     "lodash": "^4.17.21",
     "luxon": "^3.4.4",
     "moment": "^2.29.4",
@@ -66,6 +66,6 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@ethang/project-builder": "^1.1.10"
+    "@ethang/project-builder": "^1.1.11"
   }
 }

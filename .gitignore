@@ -21,6 +21,9 @@ data.db-*
 # Dev-server session cookie written by scripts/emdash-api.mjs
 scripts/.cookies.txt
 
+# Dev-server stdout when the server is started with its output redirected
+.dev-server.log
+
 # Local scratch / verification artifacts
 _seedtest*.db
 _seedtest*.db-shm

@@ -441,6 +441,82 @@
 						}
 					]
 				}
+			},
+			{
+				"id": "pages:trustees",
+				"slug": "trustees",
+				"status": "published",
+				"data": {
+					"title": "Board of Trustees",
+					"content": [
+						{
+							"_type": "block",
+							"_key": "trustees-title",
+							"style": "h1",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "trustees-title-s",
+									"text": "Board of trustees",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "trustees-lede",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "trustees-lede-s",
+									"text": "Trustees are your neighbors. They set the annual assessment, maintain the village's shared roads and common areas, and answer questions about the covenants.",
+									"marks": []
+								}
+							]
+						}
+					]
+				}
+			},
+			{
+				"id": "pages:covenants",
+				"slug": "covenants",
+				"status": "published",
+				"data": {
+					"title": "Covenants & Documents",
+					"content": [
+						{
+							"_type": "block",
+							"_key": "covenants-title",
+							"style": "h1",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "covenants-title-s",
+									"text": "Covenants & documents",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "covenants-lede",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "covenants-lede-s",
+									"text": "The rules that govern the village, kept in one place so residents can read them before building, buying, or renovating.",
+									"marks": []
+								}
+							]
+						}
+					]
+				}
 			}
 		],
 		"trustees": [

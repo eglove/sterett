@@ -1,5 +1,11 @@
 ---
-import { getEmDashCollection, getSiteSettings } from "emdash";
+import {
+	getEmDashCollection,
+	getEmDashEntry,
+	getSeoMeta,
+	getSiteSettings,
+} from "emdash";
+import { PortableText } from "emdash/ui";
 import Base from "../layouts/Base.astro";
 import { resolveStarterSiteIdentity } from "../utils/site-identity";
 
@@ -8,7 +14,35 @@ const { entries: documents, cacheHint } = await getEmDashCollection("covenants",
 });
 if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
 
+/* The words above the document list are ordinary CMS content — the
+   "covenants" page in the Pages collection, written in the same rich text
+   editor as the home page. The documents below still come from the Covenants
+   collection, so the prose and the file list are edited independently. */
+const { entry: page, cacheHint: pageCacheHint } = await getEmDashEntry(
+	"pages",
+	"covenants",
+);
+if (Astro.cache?.enabled) Astro.cache.set(pageCacheHint);
+
 const { siteTitle } = resolveStarterSiteIdentity(await getSiteSettings());
+
+const content = page?.data.content ?? [];
+const hasContent = Array.isArray(content) && content.length > 0;
+
+const seo = page
+	? getSeoMeta(page, {
+		siteTitle,
+		siteUrl: Astro.url.origin,
+		path: Astro.url.pathname.replace(/\/$/, ""),
+		titleSeparator: " — ",
+		defaultDescription: `Governing documents and covenants for ${siteTitle}.`,
+	})
+	: {
+		title: `Covenants & Documents — ${siteTitle}`,
+		ogTitle: null,
+		description: `Governing documents and covenants for ${siteTitle}.`,
+		canonical: null,
+	};
 
 /** Resolve a Media Library file to a public URL. */
 function fileUrl(file: any): string | null {
@@ -30,17 +64,25 @@ const docs = (documents ?? [])
 ---
 
 <Base
-	title="Covenants & Documents"
-	description={`Governing documents and covenants for ${siteTitle}.`}
+	title={seo.title}
+	pageTitle={seo.ogTitle}
+	description={seo.description}
+	canonical={seo.canonical}
+	content={page ? { collection: "pages", id: page.data.id, slug: "covenants" } : undefined}
 >
 	<section class="page-head">
 		<div class="shell">
-			<p class="eyebrow">Reference</p>
-			<h1>Covenants &amp; documents</h1>
-			<p class="lede">
-				The rules that govern the village, kept in one place so residents can
-				read them before building, buying, or renovating.
-			</p>
+			{
+				hasContent ? (
+					<article class="prose page-head__prose">
+						<PortableText value={content} />
+					</article>
+				) : (
+					<h1 class="page-head__title" {...(page?.edit.title ?? {})}>
+						{page?.data.title ?? "Covenants & Documents"}
+					</h1>
+				)
+			}
 		</div>
 	</section>
 
@@ -94,7 +136,33 @@ const docs = (documents ?? [])
 		border-bottom: 1px solid var(--line);
 	}
 
-	.page-head h1 {
+	.page-head__prose > :global(:first-child) {
+		margin-top: 0;
+	}
+
+	/* The editor's own headings carry the page structure; this only sets the
+	   rhythm and the size of the opening title. */
+	.page-head__prose :global(h1) {
+		font-family: var(--type-display);
+		font-size: clamp(2.25rem, 4.5vw, 3.5rem);
+		line-height: 1.05;
+		letter-spacing: -0.02em;
+		color: var(--ink);
+		margin-bottom: 0;
+	}
+
+	.page-head__prose :global(h2) {
+		margin-top: 2em;
+	}
+
+	/* The paragraph under the title reads as the page's lede. */
+	.page-head__prose :global(h1 + p) {
+		font-size: var(--step-1);
+		line-height: 1.6;
+		max-width: 54ch;
+	}
+
+	.page-head__title {
 		font-size: clamp(2.25rem, 4.5vw, 3.5rem);
 		margin-block: 0.75rem 1.25rem;
 	}

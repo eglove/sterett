@@ -1,6 +1,11 @@
 ---
-import { getEmDashCollection, getSiteSettings } from "emdash";
-import { Image } from "emdash/ui";
+import {
+	getEmDashCollection,
+	getEmDashEntry,
+	getSeoMeta,
+	getSiteSettings,
+} from "emdash";
+import { Image, PortableText } from "emdash/ui";
 import Base from "../layouts/Base.astro";
 import { resolveStarterSiteIdentity } from "../utils/site-identity";
 
@@ -9,7 +14,35 @@ const { entries: trustees, cacheHint } = await getEmDashCollection("trustees", {
 });
 if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
 
+/* The words above the roster are ordinary CMS content — the "trustees" page in
+   the Pages collection, written in the same rich text editor as the home page.
+   The roster below still comes from the Trustees collection, so the prose and
+   the cards are edited independently. */
+const { entry: page, cacheHint: pageCacheHint } = await getEmDashEntry(
+	"pages",
+	"trustees",
+);
+if (Astro.cache?.enabled) Astro.cache.set(pageCacheHint);
+
 const { siteTitle } = resolveStarterSiteIdentity(await getSiteSettings());
+
+const content = page?.data.content ?? [];
+const hasContent = Array.isArray(content) && content.length > 0;
+
+const seo = page
+	? getSeoMeta(page, {
+		siteTitle,
+		siteUrl: Astro.url.origin,
+		path: Astro.url.pathname.replace(/\/$/, ""),
+		titleSeparator: " — ",
+		defaultDescription: `The trustees of ${siteTitle}.`,
+	})
+	: {
+		title: `Board of Trustees — ${siteTitle}`,
+		ogTitle: null,
+		description: `The trustees of ${siteTitle}.`,
+		canonical: null,
+	};
 
 /** Phone numbers are stored as numbers; render them as a readable string. */
 function formatPhone(value: number | null | undefined) {
@@ -42,18 +75,25 @@ const board = (trustees ?? []).map((trustee) => ({
 ---
 
 <Base
-	title="Board of Trustees"
-	description={`The trustees of ${siteTitle}.`}
+	title={seo.title}
+	pageTitle={seo.ogTitle}
+	description={seo.description}
+	canonical={seo.canonical}
+	content={page ? { collection: "pages", id: page.data.id, slug: "trustees" } : undefined}
 >
 	<section class="page-head">
 		<div class="shell">
-			<p class="eyebrow">Your board</p>
-			<h1>Board of trustees</h1>
-			<p class="lede">
-				Trustees are your neighbors. They set the annual assessment, maintain
-				the village's shared roads and common areas, and answer questions about
-				the covenants.
-			</p>
+			{
+				hasContent ? (
+					<article class="prose page-head__prose">
+						<PortableText value={content} />
+					</article>
+				) : (
+					<h1 class="page-head__title" {...(page?.edit.title ?? {})}>
+						{page?.data.title ?? "Board of Trustees"}
+					</h1>
+				)
+			}
 		</div>
 	</section>
 
@@ -107,7 +147,33 @@ const board = (trustees ?? []).map((trustee) => ({
 		border-bottom: 1px solid var(--line);
 	}
 
-	.page-head h1 {
+	.page-head__prose > :global(:first-child) {
+		margin-top: 0;
+	}
+
+	/* The editor's own headings carry the page structure; this only sets the
+	   rhythm and the size of the opening title. */
+	.page-head__prose :global(h1) {
+		font-family: var(--type-display);
+		font-size: clamp(2.25rem, 4.5vw, 3.5rem);
+		line-height: 1.05;
+		letter-spacing: -0.02em;
+		color: var(--ink);
+		margin-bottom: 0;
+	}
+
+	.page-head__prose :global(h2) {
+		margin-top: 2em;
+	}
+
+	/* The paragraph under the title reads as the page's lede. */
+	.page-head__prose :global(h1 + p) {
+		font-size: var(--step-1);
+		line-height: 1.6;
+		max-width: 54ch;
+	}
+
+	.page-head__title {
 		font-size: clamp(2.25rem, 4.5vw, 3.5rem);
 		margin-block: 0.75rem 1.25rem;
 	}

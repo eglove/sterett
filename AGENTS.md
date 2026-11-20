@@ -44,53 +44,46 @@ This template ships with `.mcp.json`, `.cursor/mcp.json`, and `.vscode/mcp.json`
 
 ## This Template
 
-A general-purpose starting point with posts, pages, categories, and tags. Less opinionated than the themed templates -- a base for sites that want to define their own design.
-
-There is intentionally no `theme.css`, no custom font configuration, no styled layouts beyond browser defaults. The home, posts index, post detail, page, category, and tag pages all render with minimal styling. Start here if you want full control over the visual language; start with `blog`, `portfolio`, or `marketing` if you want a designed template to customise.
+A village site with covenants, pages, and trustees. The design lives in `src/styles/theme.css` (palette, type scale, spacing tokens) and in each page's `<style>` block. Fonts are Newsreader (display) and Inter (body), bound to `--font-display` and `--font-body` in `astro.config.mjs`.
 
 ## Pages
 
-| Page        | Path               | What it shows                                  |
-| ----------- | ------------------ | ---------------------------------------------- |
-| Home        | `/`                | Site title + tagline, links into Posts / About |
-| All posts   | `/posts`           | Post list                                      |
-| Post detail | `/posts/[slug]`    | Post content                                   |
-| Page        | `/[slug]`          | Static page content (e.g. `/about`)            |
-| Category    | `/category/[slug]` | Posts filtered by category                     |
-| Tag         | `/tag/[slug]`      | Posts filtered by tag                          |
+| Page      | Path          | What it shows                                        |
+| --------- | ------------- | ---------------------------------------------------- |
+| Home      | `/`           | The `pages` entry with slug `home`                   |
+| Page      | `/[slug]`     | Any other `pages` entry                              |
+| Trustees  | `/trustees`   | The `trustees` collection                            |
+| Covenants | `/covenants`  | The `covenants` collection                           |
+| Admin     | `/admin`      | Redirects to the EmDash admin UI at `/_emdash/admin` |
+| Not found | `/404`        | Rendered for unknown routes                          |
 
 ## Schema
 
-- `posts` collection: `title`, `featured_image`, `content` (Portable Text), `excerpt` (text).
 - `pages` collection: `title`, `content` (Portable Text).
-- Taxonomies: `category`, `tag`.
+- `trustees` collection: `name`, `title`, `phonenumber`, `image`.
+- `covenants` collection: `file`.
 - Single `primary` menu.
+
+There is no `posts` collection and no page routes for posts, categories, or tags. The
+`category` and `tag` taxonomy definitions still exist in `seed/seed.json` and in the live
+database, but they point at the missing `posts` collection and are unused.
 
 Site settings have `title` and `tagline`.
 
 ## Visual character
 
-None imposed. Define your own.
+Lake water, limestone paper, Ozark clay. Tokens live in `src/styles/theme.css`:
+`--paper`, `--ink`, `--water`, `--clay`, a fluid type scale (`--step--1` .. `--step-5`),
+spacing (`--space-2xs` .. `--space-2xl`), and layout primitives (`.shell`, `.section`,
+`.prose`, `.button`). Reuse those tokens; do not introduce new raw colours.
 
-This template ships without:
+## Editing style
 
-- `src/styles/theme.css` -- create one and import it from `Base.astro` if you want CSS-variable theming.
-- Fonts in `astro.config.mjs` -- the `fonts:` array is empty. Add Google Fonts entries with `cssVariable` bindings if you want web fonts.
-- A `components/` directory with styled cards / tag lists / etc. -- build them as needed.
-
-## What to do here
-
-If you're customising this template, the work is to add design, not to subtract it. Reasonable first moves:
-
-1. Decide on one display + one body typeface, add them to `astro.config.mjs`, bind them to `--font-display` and `--font-body` CSS variables.
-2. Create `src/styles/theme.css` with your colour palette, type scale, and spacing tokens.
-3. Import it from `Base.astro`, then add any page-specific styles in the relevant Astro page.
-4. Build page-specific styles in each Astro page's `<style>` block, referencing the CSS variables.
-
-If you want a designed template instead, switch to `blog`, `portfolio`, or `marketing` -- each ships with a full visual system you can re-skin via `theme.css`.
+- Page-specific styles go in that page's `<style>` block and reference the tokens.
+- Shared primitives belong in `theme.css`, not duplicated across pages.
+- Content prose comes from the CMS; the page only sets rhythm and type size around it.
 
 ## What not to do
 
-- Don't treat this as a finished design. The unstyled output is intentional; shipping it as-is looks unfinished because it is.
-- Don't add component libraries (Tailwind UI, shadcn, etc.) without considering what they bring with them. The template is small on purpose.
-- Don't recreate the blog template's three-column reading view here. If that's what you want, start from `blog`.
+- Don't add component libraries (Tailwind UI, shadcn, etc.) without considering what they bring with them. The site is small on purpose.
+- Don't hardcode colours or font stacks; use the CSS variables so a palette change is one edit.

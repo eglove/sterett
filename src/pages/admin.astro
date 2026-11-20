@@ -1,0 +1,5 @@
+---
+// Convenience alias: /admin -> /_emdash/admin (the EmDash admin UI).
+// A static route outranks the [slug].astro catch-all, so no page lookup happens.
+return Astro.redirect("/_emdash/admin", 302);
+---

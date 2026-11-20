@@ -1,0 +1,185 @@
+---
+import { getEmDashCollection, getSiteSettings } from "emdash";
+import { Image } from "emdash/ui";
+import Base from "../layouts/Base.astro";
+import { resolveStarterSiteIdentity } from "../utils/site-identity";
+
+const { entries: trustees, cacheHint } = await getEmDashCollection("trustees", {
+	orderBy: { created_at: "asc" },
+});
+if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
+
+const { siteTitle } = resolveStarterSiteIdentity(await getSiteSettings());
+
+/** Phone numbers are stored as numbers; render them as a readable string. */
+function formatPhone(value: number | null | undefined) {
+	if (value === null || value === undefined) return null;
+	const digits = String(Math.trunc(value)).replace(/\D/g, "");
+	if (digits.length === 10) {
+		return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
+	}
+	return String(Math.trunc(value));
+}
+
+function initials(name: string | null | undefined) {
+	if (!name) return "";
+	return name
+		.split(/\s+/)
+		.filter(Boolean)
+		.slice(0, 2)
+		.map((part) => part[0]?.toUpperCase() ?? "")
+		.join("");
+}
+
+const board = (trustees ?? []).map((trustee) => ({
+	name: trustee.data.name,
+	role: trustee.data.title ?? null,
+	phone: formatPhone(trustee.data.phonenumber),
+	image: trustee.data.image ?? null,
+	monogram: initials(trustee.data.name),
+	edit: trustee.edit,
+}));
+---
+
+<Base
+	title="Board of Trustees"
+	description={`The trustees of ${siteTitle}.`}
+>
+	<section class="page-head">
+		<div class="shell">
+			<p class="eyebrow">Your board</p>
+			<h1>Board of trustees</h1>
+			<p class="lede">
+				Trustees are your neighbors. They set the annual assessment, maintain
+				the village's shared roads and common areas, and answer questions about
+				the covenants.
+			</p>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="shell">
+			{
+				board.length === 0 ? (
+					<p class="empty-note">
+						The current roster is being updated. Please check back soon.
+					</p>
+				) : (
+					<ul class="board">
+						{board.map((member) => (
+							<li class="board__card">
+								<div class="board__portrait">
+									{member.image ? (
+										<Image image={member.image} alt={member.name} />
+									) : (
+										<span aria-hidden="true">{member.monogram}</span>
+									)}
+								</div>
+								<div class="board__body">
+									<h2 class="board__name" {...member.edit.name}>
+										{member.name}
+									</h2>
+									{member.role && (
+										<p class="board__role" {...member.edit.title}>
+											{member.role}
+										</p>
+									)}
+									{member.phone && (
+										<p class="board__phone">
+											<a href={`tel:${member.phone.replace(/[^0-9]/g, "")}`}>
+												{member.phone}
+											</a>
+										</p>
+									)}
+								</div>
+							</li>
+						))}
+					</ul>
+				)
+			}
+		</div>
+	</section>
+</Base>
+
+<style>
+	.page-head {
+		padding-block: clamp(3rem, 7vw, 5rem) clamp(1.5rem, 3vw, 2.5rem);
+		border-bottom: 1px solid var(--line);
+	}
+
+	.page-head h1 {
+		font-size: clamp(2.25rem, 4.5vw, 3.5rem);
+		margin-block: 0.75rem 1.25rem;
+	}
+
+	.board {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
+		gap: 1.5rem;
+	}
+
+	.board__card {
+		display: flex;
+		gap: 1.25rem;
+		padding: 1.75rem;
+		background: var(--paper-raised);
+		border: 1px solid var(--line);
+		border-radius: var(--radius-lg);
+		box-shadow: var(--shadow-soft);
+	}
+
+	.board__portrait {
+		display: grid;
+		place-items: center;
+		width: 4.5rem;
+		height: 4.5rem;
+		flex: none;
+		border-radius: 50%;
+		overflow: hidden;
+		background: var(--water-tint);
+		color: var(--water);
+		font-family: var(--font-display);
+		font-size: 1.35rem;
+		letter-spacing: 0.02em;
+	}
+
+	.board__portrait :global(img) {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.board__name {
+		font-size: 1.25rem;
+		font-weight: 500;
+	}
+
+	.board__role {
+		margin-top: 0.35rem;
+		font-size: 0.72rem;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--clay);
+	}
+
+	.board__phone {
+		margin-top: 0.6rem;
+		font-size: 0.95rem;
+	}
+
+	.board__phone a {
+		text-decoration: none;
+		border-bottom: 1px solid var(--line-strong);
+	}
+
+	.board__phone a:hover {
+		border-bottom-color: var(--clay);
+	}
+
+	.empty-note {
+		color: var(--ink-soft);
+	}
+</style>

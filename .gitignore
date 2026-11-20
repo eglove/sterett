@@ -17,3 +17,18 @@ data.db-*
 # Editor / local scratch
 .idea/
 .probe-smtp/
+
+# Dev-server session cookie written by scripts/emdash-api.mjs
+scripts/.cookies.txt
+
+# Local scratch / verification artifacts
+_seedtest*.db
+_seedtest*.db-shm
+_seedtest*.db-wal
+.playwright-cli/
+_verify.db
+_verify.db-shm
+_verify.db-wal
+.verify.db
+.verify.db-shm
+.verify.db-wal

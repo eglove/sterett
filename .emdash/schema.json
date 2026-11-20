@@ -1,0 +1,115 @@
+{
+  "collections": [
+    {
+      "slug": "covenants",
+      "label": "Covenants",
+      "labelSingular": "Covenant",
+      "supports": [
+        "drafts",
+        "revisions"
+      ],
+      "hidden": false,
+      "fields": [
+        {
+          "slug": "file",
+          "label": "file",
+          "type": "file",
+          "required": false,
+          "unique": false
+        }
+      ]
+    },
+    {
+      "slug": "pages",
+      "label": "Pages",
+      "labelSingular": "Page",
+      "supports": [
+        "drafts",
+        "revisions",
+        "preview",
+        "search",
+        "seo"
+      ],
+      "hidden": false,
+      "fields": [
+        {
+          "slug": "title",
+          "label": "Title",
+          "type": "string",
+          "required": true,
+          "unique": false
+        },
+        {
+          "slug": "content",
+          "label": "Content",
+          "type": "portableText",
+          "required": false,
+          "unique": false
+        },
+        {
+          "slug": "layout",
+          "label": "Page layout",
+          "type": "blocks",
+          "required": false,
+          "unique": false,
+          "validation": {
+            "allowedTypes": [
+              "hero",
+              "rich_text",
+              "feature_cards",
+              "image_text",
+              "contact_panel",
+              "callout"
+            ],
+            "retiredTypes": [],
+            "minItems": 0,
+            "maxItems": 40
+          }
+        }
+      ]
+    },
+    {
+      "slug": "trustees",
+      "label": "Trustees",
+      "labelSingular": "Trustee",
+      "supports": [
+        "drafts",
+        "revisions",
+        "preview"
+      ],
+      "hidden": true,
+      "fields": [
+        {
+          "slug": "name",
+          "label": "name",
+          "type": "string",
+          "required": true,
+          "unique": true
+        },
+        {
+          "slug": "title",
+          "label": "title",
+          "type": "string",
+          "required": false,
+          "unique": false
+        },
+        {
+          "slug": "phonenumber",
+          "label": "phoneNumber",
+          "type": "number",
+          "required": false,
+          "unique": true
+        },
+        {
+          "slug": "image",
+          "label": "image",
+          "type": "image",
+          "required": false,
+          "unique": false,
+          "options": {}
+        }
+      ]
+    }
+  ],
+  "version": "49164eaf94620ca3"
+}

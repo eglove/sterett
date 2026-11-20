@@ -5,6 +5,19 @@
 
 import type { BylineSummary, ContentBylineCredit, TaxonomyTerm, PortableTextBlock } from "emdash";
 
+export interface Covenant {
+  id: string;
+  slug: string | null;
+  status: string;
+  file?: { id: string; url?: string; src?: string; filename?: string; mimeType?: string; size?: number; provider?: string; meta?: Record<string, unknown> };
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt: Date | null;
+  byline?: BylineSummary | null;
+  bylines?: ContentBylineCredit[];
+  terms?: Record<string, TaxonomyTerm[]>;
+}
+
 export interface Page {
   id: string;
   slug: string | null;
@@ -19,14 +32,14 @@ export interface Page {
   terms?: Record<string, TaxonomyTerm[]>;
 }
 
-export interface Post {
+export interface Trustee {
   id: string;
   slug: string | null;
   status: string;
-  title: string;
-  featured_image?: { id: string; src?: string; alt?: string; caption?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; caption?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } };
-  content?: PortableTextBlock[];
-  excerpt?: string;
+  name: string;
+  title?: string;
+  phonenumber?: number;
+  image?: { id: string; src?: string; alt?: string; caption?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; caption?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } };
   createdAt: Date;
   updatedAt: Date;
   publishedAt: Date | null;
@@ -37,7 +50,8 @@ export interface Post {
 
 declare module "emdash" {
   interface EmDashCollections {
+    covenants: Covenant;
     pages: Page;
-    posts: Post;
+    trustees: Trustee;
   }
 }

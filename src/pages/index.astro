@@ -1,50 +1,95 @@
 ---
-import { getEmDashCollection, getSiteSettings } from "emdash";
-import { Image } from "emdash/ui";
+import { getEmDashEntry, getSiteSettings } from "emdash";
+import { PortableText } from "emdash/ui";
 import Base from "../layouts/Base.astro";
 import { resolveStarterSiteIdentity } from "../utils/site-identity";
 
-const { entries: posts, cacheHint } = await getEmDashCollection("posts", {
-	orderBy: { published_at: "desc" },
-	limit: 10,
-});
+const { entry: page, cacheHint } = await getEmDashEntry("pages", "home");
+if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
+
 const { siteTitle, siteTagline } = resolveStarterSiteIdentity(
 	await getSiteSettings(),
 );
-if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
+
+const content = page?.data.content ?? [];
+const hasContent = Array.isArray(content) && content.length > 0;
 ---
 
-<Base title={siteTitle} description={siteTagline}>
-	<h1>Recent Posts</h1>
-
-	{
-		posts.length === 0 ? (
-			<p>
-				No posts yet. <a href="/_emdash/admin/content/posts/new">Create one</a>.
-			</p>
-		) : (
-			<ul>
-				{posts.map((post) => (
-					<li>
-						<a href={`/posts/${post.id}`}>
-							{post.data.featured_image && (
-								<div {...post.edit.featured_image}><Image image={post.data.featured_image} /></div>
-							)}
-							<h2 {...post.edit.title}>{post.data.title}</h2>
-						</a>
-						{post.data.excerpt && <p {...post.edit.excerpt}>{post.data.excerpt}</p>}
-						{post.data.publishedAt && (
-							<time datetime={post.data.publishedAt.toISOString()}>
-								{post.data.publishedAt.toLocaleDateString("en-US", {
-									year: "numeric",
-									month: "long",
-									day: "numeric",
-								})}
-							</time>
-						)}
-					</li>
-				))}
-			</ul>
-		)
-	}
+<Base
+	title={siteTitle}
+	description={siteTagline}
+	content={{ collection: "pages", id: page?.data.id ?? "home", slug: "home" }}
+>
+	<div class="shell home">
+		{
+			hasContent ? (
+				<article class="prose home__prose">
+					<PortableText value={content} />
+				</article>
+			) : (
+				<section class="home__empty">
+					<h1>{siteTitle}</h1>
+					<p>
+						This page has no content yet. Open the admin panel and write the
+						Home page.
+					</p>
+					<a class="button" href="/_emdash/admin">Open the admin panel</a>
+				</section>
+			)
+		}
+	</div>
 </Base>
+
+<style>
+	.home {
+		padding-block: clamp(3rem, 7vw, 5.5rem);
+		display: flex;
+		justify-content: center;
+	}
+
+	/* The editor's own headings carry the page structure; this only sets the
+	   rhythm and the size of the opening title. */
+	.home__prose > :global(:first-child) {
+		margin-top: 0;
+	}
+
+	.home__prose :global(h1) {
+		font-family: var(--type-display);
+		font-size: var(--step-5);
+		line-height: 1.05;
+		letter-spacing: -0.02em;
+		color: var(--ink);
+		margin-bottom: 0.6em;
+	}
+
+	.home__prose :global(h2) {
+		margin-top: 2.2em;
+	}
+
+	.home__prose :global(p) {
+		font-size: var(--step-1);
+		line-height: 1.65;
+	}
+
+	.home__prose :global(img) {
+		width: 100%;
+		height: auto;
+		margin-block: 2rem;
+	}
+
+	.home__empty {
+		display: grid;
+		gap: 1.25rem;
+		justify-items: start;
+		max-width: 40rem;
+		padding-block: 2rem;
+	}
+
+	.home__empty h1 {
+		font-size: clamp(2rem, 4vw, 3rem);
+	}
+
+	.home__empty p {
+		color: var(--ink-soft);
+	}
+</style>

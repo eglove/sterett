@@ -1,9 +1,11 @@
 ---
 import { getMenuWithCacheHint, getSiteSettingsWithCacheHint } from "emdash";
-import { EmDashHead, EmDashBodyStart, EmDashBodyEnd } from "emdash/ui";
+import { EmDashHead, EmDashBodyStart, EmDashBodyEnd, WidgetArea } from "emdash/ui";
 import { createPublicPageContext } from "emdash/page";
-import LiveSearch from "emdash/ui/search";
+import { Font } from "astro:assets";
 import { resolveStarterSiteIdentity } from "../utils/site-identity";
+import { village } from "../data/village";
+import "../styles/theme.css";
 
 interface Props {
 	title: string;
@@ -37,6 +39,20 @@ const fullTitle = titleIncludesSiteName ? title : `${title} — ${siteTitle}`;
 const pageDescription = description ?? siteTagline;
 const menu = menuResult.data;
 
+/* The primary menu is empty until an editor fills it in. Fall back to the
+   homepage's own sections so the header is never blank. */
+const navItems =
+	menu?.items && menu.items.length > 0
+		? menu.items.map((item) => ({
+				label: item.label,
+				url: item.url,
+				target: item.target,
+			}))
+		: [
+				{ label: "Trustees", url: "/trustees", target: undefined },
+				{ label: "Covenants", url: "/covenants", target: undefined },
+			];
+
 const pageCtx = createPublicPageContext({
 	Astro,
 	kind: content ? "content" : "custom",
@@ -57,44 +73,68 @@ const pageCtx = createPublicPageContext({
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>{fullTitle}</title>
+		<Font cssVariable="--font-display" preload />
+		<Font cssVariable="--font-body" />
 		<EmDashHead page={pageCtx} />
 	</head>
 	<body>
 		<EmDashBodyStart page={pageCtx} />
 
-		<header>
-			<nav>
-				<a href="/">
+		<a class="skip-link" href="#main">Skip to content</a>
+
+		<header class="site-header">
+			<div class="shell site-header__inner">
+				<a class="site-brand" href="/">
 					{
 						siteLogo ? (
 							<img
+								class="site-brand__logo"
 								src={siteLogo.url}
 								alt={siteLogo.alt || siteTitle}
-								style="height:48px;width:auto;margin:-8px 0;display:block;"
 							/>
 						) : (
-							siteTitle
+							<span class="site-brand__mark" aria-hidden="true">SCV</span>
 						)
 					}
+					<span class="site-brand__text">
+						<span class="site-brand__name">{siteTitle}</span>
+						<span class="site-brand__sub">{village.region}</span>
+					</span>
 				</a>
-				{
-					menu?.items.map((item) => (
-						<a
-							href={item.url}
-							target={item.target}
-							rel={item.target === "_blank" ? "noopener noreferrer" : undefined}
-						>
-							{item.label}
-						</a>
-					))
-				}
-				<LiveSearch placeholder="Search..." collections={["posts", "pages"]} />
-			</nav>
+
+				<nav class="site-nav" aria-label="Primary">
+					{
+						navItems.map((item) => (
+							<a
+								href={item.url}
+								target={item.target}
+								rel={item.target === "_blank" ? "noopener noreferrer" : undefined}
+							>
+								{item.label}
+							</a>
+						))
+					}
+				</nav>
+			</div>
 		</header>
 
-		<main>
+		<main id="main">
 			<slot />
 		</main>
+
+		<footer class="site-footer">
+			<div class="shell site-footer__inner">
+				<div>
+					<p class="site-footer__title">{siteTitle}</p>
+					<WidgetArea name="footer" />
+				</div>
+				<div class="site-footer__links">
+					<a href="/trustees">Trustees</a>
+					<a href="/covenants">Covenants</a>
+					<a href="/_emdash/admin">Board login</a>
+				</div>
+			</div>
+		</footer>
 
 		<EmDashBodyEnd page={pageCtx} />
 	</body>

@@ -2,44 +2,31 @@
 	"$schema": "https://emdashcms.com/seed.schema.json",
 	"version": "1",
 	"meta": {
-		"name": "Starter",
-		"description": "A minimal EmDash starter with posts and pages",
-		"author": "EmDash"
+		"name": "Exported Seed",
+		"description": "Exported from existing EmDash database"
 	},
 	"settings": {
-		"title": "My Site",
-		"tagline": "Built with EmDash"
+		"social": {
+			"facebook": "https://www.facebook.com/groups/1128808771300866/"
+		},
+		"tagline": "",
+		"title": "Sterett Creek Village Trustee"
 	},
+	"blockTypes": [],
 	"collections": [
 		{
-			"slug": "posts",
-			"label": "Posts",
-			"labelSingular": "Post",
-			"urlPattern": "/posts/{slug}",
-			"supports": ["drafts", "revisions", "preview", "search", "seo"],
+			"slug": "covenants",
+			"label": "Covenants",
+			"labelSingular": "Covenant",
+			"supports": [
+				"drafts",
+				"revisions"
+			],
 			"fields": [
 				{
-					"slug": "title",
-					"label": "Title",
-					"type": "string",
-					"required": true,
-					"searchable": true
-				},
-				{
-					"slug": "featured_image",
-					"label": "Featured Image",
-					"type": "image"
-				},
-				{
-					"slug": "content",
-					"label": "Content",
-					"type": "portableText",
-					"searchable": true
-				},
-				{
-					"slug": "excerpt",
-					"label": "Excerpt",
-					"type": "text"
+					"slug": "file",
+					"label": "file",
+					"type": "file"
 				}
 			]
 		},
@@ -47,8 +34,14 @@
 			"slug": "pages",
 			"label": "Pages",
 			"labelSingular": "Page",
+			"supports": [
+				"drafts",
+				"revisions",
+				"preview",
+				"search",
+				"seo"
+			],
 			"urlPattern": "/{slug}",
-			"supports": ["drafts", "revisions", "preview", "search", "seo"],
 			"fields": [
 				{
 					"slug": "title",
@@ -64,46 +57,71 @@
 					"searchable": true
 				}
 			]
+		},
+		{
+			"slug": "trustees",
+			"label": "Trustees",
+			"labelSingular": "Trustee",
+			"supports": [
+				"drafts",
+				"revisions",
+				"preview"
+			],
+			"fields": [
+				{
+					"slug": "name",
+					"label": "name",
+					"type": "string",
+					"required": true,
+					"unique": true,
+					"indexed": true
+				},
+				{
+					"slug": "title",
+					"label": "title",
+					"type": "string"
+				},
+				{
+					"slug": "phonenumber",
+					"label": "phoneNumber",
+					"type": "number",
+					"unique": true
+				},
+				{
+					"slug": "image",
+					"label": "image",
+					"type": "image",
+					"options": {}
+				}
+			]
 		}
 	],
+	"defaultLocale": "en",
 	"taxonomies": [
 		{
+			"id": "tax:category",
 			"name": "category",
 			"label": "Categories",
 			"labelSingular": "Category",
 			"hierarchical": true,
-			"collections": ["posts"],
-			"terms": [
-				{
-					"slug": "general",
-					"label": "General"
-				},
-				{
-					"slug": "updates",
-					"label": "Updates"
-				}
+			"collections": [
+				"posts"
 			]
 		},
 		{
+			"id": "tax:tag",
 			"name": "tag",
 			"label": "Tags",
 			"labelSingular": "Tag",
 			"hierarchical": false,
-			"collections": ["posts"],
-			"terms": [
-				{
-					"slug": "starter",
-					"label": "Starter"
-				},
-				{
-					"slug": "example",
-					"label": "Example"
-				}
+			"collections": [
+				"posts"
 			]
 		}
 	],
 	"menus": [
 		{
+			"id": "menu:primary",
 			"name": "primary",
 			"label": "Primary Navigation",
 			"items": [
@@ -114,119 +132,336 @@
 				},
 				{
 					"type": "custom",
-					"label": "Posts",
-					"url": "/posts"
+					"label": "Trustees",
+					"url": "/trustees"
 				},
 				{
 					"type": "custom",
-					"label": "About",
-					"url": "/about"
+					"label": "Covenants",
+					"url": "/covenants"
 				}
 			]
 		}
 	],
 	"widgetAreas": [
 		{
-			"name": "sidebar",
-			"label": "Sidebar",
-			"description": "Sidebar widget area",
+			"name": "footer",
+			"label": "Footer",
+			"description": "Contact details shown in the site footer on every page.",
 			"widgets": [
 				{
-					"type": "component",
-					"componentId": "core:search",
-					"title": "Search"
-				},
-				{
-					"type": "component",
-					"componentId": "core:categories",
-					"title": "Categories"
-				},
-				{
-					"type": "component",
-					"componentId": "core:recent-posts",
-					"title": "Recent Posts",
-					"props": {
-						"count": 5
-					}
+					"type": "content",
+					"content": [
+						{
+							"_type": "block",
+							"_key": "f1",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "f1-s",
+									"text": "Village Office",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "f2",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "f2-s",
+									"text": "18597 Sterett Creek Village Dr",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "f3",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "f3-s",
+									"text": "Warsaw, MO 65355",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "f4",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "f4-s",
+									"text": "(660) 438-2251",
+									"marks": []
+								}
+							]
+						}
+					]
 				}
 			]
 		}
 	],
 	"content": {
-		"pages": [
+		"covenants": [
 			{
-				"id": "about",
-				"slug": "about",
+				"id": "covenants:village-covenants",
+				"slug": "village-covenants",
 				"status": "published",
 				"data": {
-					"title": "About",
+					"file": {
+						"id": "",
+						"provider": "external",
+						"src": "https://example.com/covenants.pdf",
+						"filename": "Village Covenants.pdf",
+						"mimeType": "application/pdf"
+					}
+				}
+			}
+		],
+		"pages": [
+			{
+				"id": "pages:home",
+				"slug": "home",
+				"status": "published",
+				"data": {
+					"title": "Home",
 					"content": [
 						{
 							"_type": "block",
-							"style": "normal",
+							"_key": "home-title",
+							"style": "h1",
+							"markDefs": [],
 							"children": [
 								{
 									"_type": "span",
-									"text": "This is the about page. Edit it in the admin panel or replace this template with your own design.",
-									"_key": "k1"
+									"_key": "home-title-s",
+									"text": "Sterett Creek Village",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "home-lede",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "home-lede-s",
+									"text": "A residential village on the shores of Truman Lake near Warsaw, Missouri — run by the neighbors who live here.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "home-welcome",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "home-welcome-s",
+									"text": "Welcome to the village",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "home-welcome-p1",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "home-welcome-p1-s",
+									"text": "Sterett Creek Village is a quiet community of full-time residents and lake-house owners on the Truman Lake shoreline. The village is governed by a board of trustees elected from among the property owners.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "home-welcome-p2",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "home-welcome-p2-s",
+									"text": "Board meetings are open to residents. They are held at the village office — check the notice board or call the office for the current schedule.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "home-links",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "home-links-s",
+									"text": "Village information",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "home-links-list",
+							"style": "normal",
+							"markDefs": [
+								{
+									"_key": "link-trustees",
+									"_type": "link",
+									"href": "/trustees"
 								}
 							],
-							"_key": "k0"
+							"children": [
+								{
+									"_type": "span",
+									"_key": "home-links-s1",
+									"text": "the board of trustees",
+									"marks": [
+										"link-trustees"
+									]
+								}
+							],
+							"listItem": "bullet"
+						},
+						{
+							"_type": "block",
+							"_key": "home-links-2",
+							"style": "normal",
+							"markDefs": [
+								{
+									"_key": "link-covenants",
+									"_type": "link",
+									"href": "/covenants"
+								}
+							],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "home-links-s2",
+									"text": "the covenants and village documents",
+									"marks": [
+										"link-covenants"
+									]
+								}
+							],
+							"listItem": "bullet"
+						},
+						{
+							"_type": "block",
+							"_key": "home-links-3",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "home-links-s3",
+									"text": "the village office",
+									"marks": []
+								}
+							],
+							"listItem": "bullet"
+						},
+						{
+							"_type": "block",
+							"_key": "home-contact",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "home-contact-s",
+									"text": "Contact the village office",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "home-address",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "home-address-s",
+									"text": "18597 Sterett Creek Village Dr, Warsaw, MO 65355",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "home-phone",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "home-phone-s",
+									"text": "(660) 438-2251",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "home-quote",
+							"style": "blockquote",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "home-quote-s",
+									"text": "The village is what its residents make of it. Come to a meeting.",
+									"marks": []
+								}
+							]
 						}
 					]
 				}
 			}
 		],
-		"posts": [
+		"trustees": [
 			{
-				"id": "post-1",
-				"slug": "welcome",
+				"id": "trustees:vice-chair",
+				"slug": "vice-chair",
 				"status": "published",
 				"data": {
-					"title": "Welcome",
-					"excerpt": "Your first post. Replace this with your own content.",
-					"content": [
-						{
-							"_type": "block",
-							"style": "normal",
-							"children": [
-								{
-									"_type": "span",
-									"text": "This is a starter post. The templates in this project show the basic patterns for querying and rendering EmDash content. Replace them with your own design.",
-									"_key": "k1"
-								}
-							],
-							"_key": "k0"
-						},
-						{
-							"_type": "block",
-							"style": "h2",
-							"children": [
-								{
-									"_type": "span",
-									"text": "What to do next",
-									"_key": "k3"
-								}
-							],
-							"_key": "k2"
-						},
-						{
-							"_type": "block",
-							"style": "normal",
-							"children": [
-								{
-									"_type": "span",
-									"text": "Open the admin panel to add content, or edit the Astro pages in src/pages to change how content is displayed.",
-									"_key": "k5"
-								}
-							],
-							"_key": "k4"
-						}
-					]
-				},
-				"taxonomies": {
-					"category": ["general"],
-					"tag": ["starter", "example"]
+					"name": "Ray Alvarez",
+					"phonenumber": 6604382252,
+					"title": "Vice Chair"
+				}
+			},
+			{
+				"id": "trustees:chair",
+				"slug": "chair",
+				"status": "published",
+				"data": {
+					"name": "Dana Whitfield",
+					"phonenumber": 6604382251,
+					"title": "Chair"
 				}
 			}
 		]

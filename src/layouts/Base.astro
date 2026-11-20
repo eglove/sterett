@@ -72,6 +72,8 @@ const pageCtx = createPublicPageContext({
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="icon" type="image/png" href="/village-mark.png" />
+		<link rel="apple-touch-icon" href="/village-mark.png" />
 		<title>{fullTitle}</title>
 		<Font cssVariable="--font-display" preload />
 		<Font cssVariable="--font-body" />
@@ -93,7 +95,14 @@ const pageCtx = createPublicPageContext({
 								alt={siteLogo.alt || siteTitle}
 							/>
 						) : (
-							<span class="site-brand__mark" aria-hidden="true">SCV</span>
+							<img
+								class="site-brand__mark"
+								src="/village-mark.png"
+								alt=""
+								width="512"
+								height="512"
+								aria-hidden="true"
+							/>
 						)
 					}
 					<span class="site-brand__text">

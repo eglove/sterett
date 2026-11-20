@@ -313,16 +313,12 @@ img {
 }
 
 .site-brand__mark {
-	display: grid;
-	place-items: center;
+	display: block;
 	width: 2.3rem;
 	height: 2.3rem;
 	border-radius: 50%;
 	background: var(--water);
-	color: var(--paper-raised);
-	font-family: var(--type-display);
-	font-size: 0.95rem;
-	letter-spacing: 0.03em;
+	object-fit: contain;
 	flex: none;
 }
 

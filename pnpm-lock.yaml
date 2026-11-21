@@ -17,6 +17,9 @@ importers:
       '@emdash-cms/cloudflare':
         specifier: ^1.5.0
         version: 1.5.0(ed33b565b2d46bd24e10cf72aef18c29)
+      '@neslinesli93/qpdf-wasm':
+        specifier: ^0.3.1
+        version: 0.3.1
       astro:
         specifier: ^7.3.2
         version: 7.4.13(@types/node@26.6.6)(esbuild@0.28.2)(yaml@2.9.1)
@@ -39,6 +42,9 @@ importers:
       '@cloudflare/workers-types':
         specifier: ^5.20260820.1
         version: 5.20261119.1
+      esbuild:
+        specifier: ^0.28.2
+        version: 0.28.2
       wrangler:
         specifier: ^4.125.0
         version: 4.165.0(@cloudflare/workers-types@5.20261119.1)(@types/node@26.6.6)
@@ -1165,6 +1171,9 @@ packages:
 
   '@neon-rs/load@0.0.4':
     resolution: {integrity: sha512-kTPhdZyTQxB+2wpiRcFWrDcejc4JI6tkPuS7UZCG4l6Zvc5kU/gGQ/ozvHTh1XR5tS+UlfAfGuPajjzQjCiHCw==}
+
+  '@neslinesli93/qpdf-wasm@0.3.1':
+    resolution: {integrity: sha512-pN6wK7JSq66dtmFpncxPAvuOrILm+sdrm1SI8ZKMCl3TSKKHQeCXoes4p8gXNez8dpEhZ0st+qeN4tLbeCm3kw==}
 
   '@noble/secp256k1@3.2.0':
     resolution: {integrity: sha512-Z3ZAWOTxJ0EuTuZTi7Y69iK7GgrLHh8sgm45lVDhg/b3Nk1TpAiKhick2KkZisHuupeepSkyIydN/J459SdX1w==}
@@ -5122,6 +5131,8 @@ snapshots:
 
   '@neon-rs/load@0.0.4':
     optional: true
+
+  '@neslinesli93/qpdf-wasm@0.3.1': {}
 
   '@noble/secp256k1@3.2.0': {}
 

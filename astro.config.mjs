@@ -17,6 +17,8 @@ export default defineConfig({
 		react(),
 		emdash({
 			database: d1({ binding: "DB", session: "auto", coalesce: true }),
+			// Lossless PDF compression happens in src/worker.ts, which rewrites
+			// PDFs with qpdf before the upload route sees them. Storage stays plain R2.
 			storage: r2({ binding: "MEDIA" }),
 			// Cloudflare's edge accepts 100 MB request bodies on the free plan, so
 			// that is the ceiling for anything uploaded through the Worker.

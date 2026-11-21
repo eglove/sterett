@@ -6,6 +6,18 @@
 	"compatibility_flags": [
 		"nodejs_compat"
 	],
+	// sterettcreekvillagetrustee.com serves the site. www is routed to the same
+	// Worker only so src/worker.ts can redirect it to the apex.
+	"routes": [
+		{
+			"pattern": "sterettcreekvillagetrustee.com",
+			"custom_domain": true
+		},
+		{
+			"pattern": "www.sterettcreekvillagetrustee.com",
+			"custom_domain": true
+		}
+	],
 	"d1_databases": [
 		{
 			"binding": "DB",

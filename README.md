@@ -61,6 +61,10 @@ pnpm deploy
 This builds the site and deploys it with Wrangler. The D1 database and R2 bucket
 are provisioned from `wrangler.jsonc` on first deploy.
 
+The site is served on `sterettcreekvillagetrustee.com`. `wrangler.jsonc` routes
+both the apex and `www` to the Worker as custom domains; `src/worker.ts` sends
+`www` requests to the apex with a 301 so there is one canonical origin.
+
 ## Configuration
 
 Runtime secrets are not committed. Set them locally in `.env` and in production

@@ -18,6 +18,9 @@ export default defineConfig({
 		emdash({
 			database: d1({ binding: "DB", session: "auto", coalesce: true }),
 			storage: r2({ binding: "MEDIA" }),
+			// Cloudflare's edge accepts 100 MB request bodies on the free plan, so
+			// that is the ceiling for anything uploaded through the Worker.
+			maxUploadSize: 100 * 1024 * 1024,
 			authProviders: [google()],
 			plugins: [emdashSmtp()]
 		}),

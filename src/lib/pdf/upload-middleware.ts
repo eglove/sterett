@@ -6,10 +6,23 @@
 // requires moving the row's size in step with the bytes, or the upload is
 // rejected as a mismatch. These helpers run before the route so the row is
 // already correct when the route reads it.
+//
+// qpdf needs the whole document in memory and its working set runs about four
+// times the file size. A Worker isolate is capped at 128 MB shared with the
+// app, so a large PDF would exhaust it and the platform would answer 1102
+// (Worker exceeded resource limits). Anything at or above MAX_COMPRESS_BYTES
+// is therefore passed through untouched: the upload still succeeds, it just
+// stores the original bytes. The size is read from Content-Length before the
+// body is touched, so an oversized upload never gets buffered.
 import { compressPdf, isPdf } from "./compress";
 
 export const UPLOAD_PATH = /\/_emdash\/api\/media\/[^/]+\/upload$/;
 export const CONFIRM_PATH = /\/_emdash\/api\/media\/[^/]+\/confirm$/;
+
+// Measured peak memory for a 10 MB PDF is about 88 MB, of which roughly 44 MB
+// is the compression itself. 10 MB leaves comfortable headroom under the
+// isolate's 128 MB cap once the app's own footprint is counted.
+export const MAX_COMPRESS_BYTES = 10 * 1024 * 1024;
 
 function mediaIdFrom(pathname: string): string | null {
 	const parts = pathname.split("/").filter(Boolean);
@@ -25,10 +38,34 @@ export interface CompressOutcome {
 	finalSize: number;
 }
 
+// A declared size we can trust without reading the body. Returns null when the
+// header is absent or malformed, in which case the upload is left alone.
+function declaredSize(request: Request): number | null {
+	const raw = request.headers.get("Content-Length");
+	if (raw === null) return null;
+	const size = Number(raw);
+	if (!Number.isSafeInteger(size) || size < 0) return null;
+	return size;
+}
+
 export async function compressUpload(request: Request, env: any): Promise<CompressOutcome> {
 	const contentType = request.headers.get("Content-Type") ?? "";
 	if (!isPdf(contentType)) {
 		return { request, compressed: false, originalSize: 0, finalSize: 0 };
+	}
+
+	// Decide from the header before touching the body. Buffering first is what
+	// exhausted the isolate on a large upload.
+	const size = declaredSize(request);
+	if (size === null) {
+		console.log("[pdf-compress] no Content-Length, passing through");
+		return { request, compressed: false, originalSize: 0, finalSize: 0 };
+	}
+	if (size > MAX_COMPRESS_BYTES) {
+		console.log(
+			"[pdf-compress] " + size + " bytes exceeds " + MAX_COMPRESS_BYTES + ", passing through",
+		);
+		return { request, compressed: false, originalSize: size, finalSize: size };
 	}
 
 	const original = new Uint8Array(await request.arrayBuffer());
@@ -49,7 +86,7 @@ export async function compressUpload(request: Request, env: any): Promise<Compre
 		if (id && env?.DB) {
 			try {
 				await env.DB.prepare(
-				`UPDATE media SET size = ? WHERE id = ? AND status = 'pending'`,
+					`UPDATE media SET size = ? WHERE id = ? AND status = 'pending'`,
 				).bind(body.byteLength, id).run();
 				kept = true;
 			} catch (error) {

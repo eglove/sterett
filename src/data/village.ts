@@ -10,4 +10,9 @@
 export const village = {
 	name: "Sterett Creek Village",
 	region: "Warsaw, Missouri",
+	/**
+	 * Where the contact form delivers. The SMTP plugin sends from its own
+	 * configured address, so this is the board's inbox, not the sender.
+	 */
+	contactEmail: "hello@ethang.email",
 } as const;

@@ -1,0 +1,330 @@
+---
+import { withEmDashRuntime } from "emdash/middleware";
+import Base from "../layouts/Base.astro";
+import { village } from "../data/village";
+
+const TOPICS = [
+	{ value: "website", label: "Something is broken on the website" },
+	{ value: "content", label: "Information is wrong or missing" },
+	{ value: "other", label: "Something else" },
+];
+
+const LIMITS = { name: 120, email: 200, message: 5000 };
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+const sent = Astro.url.searchParams.get("sent") === "1";
+
+const form = { name: "", email: "", topic: "website", message: "" };
+const errors: Record<string, string> = {};
+let sendFailed = false;
+
+if (Astro.request.method === "POST") {
+	let data: FormData | null = null;
+	try {
+		data = await Astro.request.formData();
+	} catch {
+		data = null;
+	}
+
+	const read = (key: string) => {
+		const value = data?.get(key);
+		return typeof value === "string" ? value.trim() : "";
+	};
+
+	form.name = read("name").slice(0, LIMITS.name);
+	form.email = read("email").slice(0, LIMITS.email);
+	form.topic = read("topic");
+	form.message = read("message").slice(0, LIMITS.message);
+
+	const trap = read("website");
+
+	if (!form.name) errors.name = "Please tell us your name.";
+	if (!form.email) errors.email = "Please give us an address to reply to.";
+	else if (!EMAIL_PATTERN.test(form.email)) errors.email = "That email address does not look right.";
+	if (!form.message) errors.message = "Please write your message.";
+	else if (form.message.length < 10) errors.message = "Please add a little more detail.";
+	if (!TOPICS.some((topic) => topic.value === form.topic)) errors.topic = "Please choose a topic.";
+
+	/* One cheap bot filter: a field hidden from people but visible to a
+	   crawler. A filled one is swallowed silently — the response says nothing,
+	   so the bot learns nothing. Deliberately no timing check: a browser
+	   autofilling the form can submit in under a second, and that is a real
+	   person whose message must not be dropped. */
+	const looksAutomated = trap.length > 0;
+
+	if (Object.keys(errors).length === 0) {
+		if (looksAutomated) {
+			/* Accept silently so a bot learns nothing from the response. */
+			return Astro.redirect("/contact?sent=1", 303);
+		}
+
+		const topicLabel =
+			TOPICS.find((topic) => topic.value === form.topic)?.label ??
+			"Website enquiry";
+
+		/* The SMTP plugin takes Reply-To from its own global settings and ignores
+		   a per-message one, so the sender's address goes in the body where the
+		   board can read it and reply by hand. */
+		const body = [
+			`Reply to: ${form.name} <${form.email}>`,
+			"",
+			`Topic: ${topicLabel}`,
+			"",
+			form.message,
+		].join("\n");
+
+		try {
+			await withEmDashRuntime(async (runtime) => {
+				if (!runtime.email) {
+					throw new Error("No email provider is configured.");
+				}
+				await runtime.email.send(
+					{
+						to: village.contactEmail,
+						subject: `[${village.name}] ${topicLabel} — ${form.name}`,
+						text: body,
+					},
+					"contact-form",
+				);
+			});
+			return Astro.redirect("/contact?sent=1", 303);
+		} catch (error) {
+			console.error("[contact] Could not send the contact message:", error);
+			sendFailed = true;
+		}
+	}
+}
+---
+
+<Base
+	title="Contact"
+	description="Report a problem with the village website, or get in touch with the board."
+>
+	<div class="shell contact">
+		<header class="contact__intro">
+			<h1>Contact the board</h1>
+			<p>
+				Something broken on this site, or something the board should know about?
+				Send a message and it will reach the board's inbox.
+			</p>
+		</header>
+
+		{
+			sent ? (
+				<div class="contact__notice" role="status">
+					<h2>Message sent</h2>
+					<p>
+						Thank you — your message is on its way. If you asked for a reply,
+						the board will answer at the address you gave.
+					</p>
+					<p>
+						<a href="/">Back to the home page</a>
+					</p>
+				</div>
+			) : (
+				<form class="contact__form" method="post" action="/contact">
+					{sendFailed && (
+						<p class="contact__alert" role="alert">
+							The message could not be sent just now. Please try again in a
+							moment, or write to{" "}
+							<a href={`mailto:${village.contactEmail}`}>{village.contactEmail}</a>.
+						</p>
+					)}
+
+					<div class="field">
+						<label for="contact-name">Your name</label>
+						<input
+							id="contact-name"
+							name="name"
+							type="text"
+							required
+							maxlength={LIMITS.name}
+							autocomplete="name"
+							value={form.name}
+							aria-invalid={errors.name ? "true" : undefined}
+							aria-describedby={errors.name ? "contact-name-error" : undefined}
+						/>
+						{errors.name && (
+							<p class="field__error" id="contact-name-error">{errors.name}</p>
+						)}
+					</div>
+
+					<div class="field">
+						<label for="contact-email">Your email</label>
+						<input
+							id="contact-email"
+							name="email"
+							type="email"
+							required
+							maxlength={LIMITS.email}
+							autocomplete="email"
+							value={form.email}
+							aria-invalid={errors.email ? "true" : undefined}
+							aria-describedby={errors.email ? "contact-email-error" : undefined}
+						/>
+						{errors.email && (
+							<p class="field__error" id="contact-email-error">{errors.email}</p>
+						)}
+					</div>
+
+					<div class="field">
+						<label for="contact-topic">What is this about?</label>
+						<select
+							id="contact-topic"
+							name="topic"
+							required
+							aria-invalid={errors.topic ? "true" : undefined}
+							aria-describedby={errors.topic ? "contact-topic-error" : undefined}
+						>
+							{TOPICS.map((topic) => (
+								<option value={topic.value} selected={topic.value === form.topic}>
+									{topic.label}
+								</option>
+							))}
+						</select>
+						{errors.topic && (
+							<p class="field__error" id="contact-topic-error">{errors.topic}</p>
+						)}
+					</div>
+
+					<div class="field">
+						<label for="contact-message">Your message</label>
+						<textarea
+							id="contact-message"
+							name="message"
+							rows="8"
+							required
+							maxlength={LIMITS.message}
+							aria-invalid={errors.message ? "true" : undefined}
+							aria-describedby={errors.message ? "contact-message-error" : undefined}
+						>{form.message}</textarea>
+						{errors.message && (
+							<p class="field__error" id="contact-message-error">{errors.message}</p>
+						)}
+					</div>
+
+					<div class="field--trap" aria-hidden="true">
+						<label for="contact-website">Leave this field empty</label>
+						<input
+							id="contact-website"
+							name="website"
+							type="text"
+							tabindex="-1"
+							autocomplete="off"
+						/>
+					</div>
+
+					<button class="button" type="submit">Send message</button>
+				</form>
+			)
+		}
+	</div>
+</Base>
+
+<style>
+	.contact {
+		padding-block: clamp(2.5rem, 6vw, 4.5rem);
+		display: grid;
+		gap: clamp(2rem, 4vw, 3rem);
+		max-width: 42rem;
+	}
+
+	.contact__intro h1 {
+		font-size: var(--step-4);
+		line-height: 1.05;
+		letter-spacing: -0.02em;
+	}
+
+	.contact__intro p {
+		margin-top: 0.9rem;
+		font-size: var(--step-1);
+		color: var(--ink-soft);
+		max-width: 34rem;
+	}
+
+	.contact__form {
+		display: grid;
+		gap: 1.5rem;
+	}
+
+	.field {
+		display: grid;
+		gap: 0.45rem;
+	}
+
+	.field label {
+		font-size: var(--step--1);
+		font-weight: 600;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		color: var(--ink-soft);
+	}
+
+	.field input,
+	.field select,
+	.field textarea {
+		width: 100%;
+		font: inherit;
+		color: var(--ink);
+		background: var(--paper-raised);
+		border: 1px solid var(--line-strong);
+		border-radius: 3px;
+		padding: 0.7rem 0.85rem;
+	}
+
+	.field textarea {
+		resize: vertical;
+		min-height: 10rem;
+		line-height: 1.6;
+	}
+
+	.field input:focus-visible,
+	.field select:focus-visible,
+	.field textarea:focus-visible {
+		outline: 2px solid var(--clay);
+		outline-offset: 1px;
+		border-color: var(--clay);
+	}
+
+	.field__error {
+		font-size: var(--step--1);
+		color: var(--clay);
+	}
+
+	/* Visually hidden, not display:none — the field has to look real to a bot. */
+	.field--trap {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		margin: -1px;
+		padding: 0;
+		overflow: hidden;
+		clip: rect(0 0 0 0);
+		clip-path: inset(50%);
+		white-space: nowrap;
+		border: 0;
+	}
+
+	.contact__alert {
+		padding: 1rem 1.15rem;
+		border-left: 3px solid var(--clay);
+		background: var(--paper-sunk);
+		color: var(--ink);
+	}
+
+	.contact__notice {
+		padding: 1.75rem;
+		border: 1px solid var(--line);
+		border-radius: 3px;
+		background: var(--paper-raised);
+	}
+
+	.contact__notice h2 {
+		font-size: var(--step-2);
+	}
+
+	.contact__notice p {
+		margin-top: 0.75rem;
+		color: var(--ink-soft);
+	}
+</style>

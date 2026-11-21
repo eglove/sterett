@@ -145,6 +145,11 @@
 					"type": "custom",
 					"label": "Covenants",
 					"url": "/covenants"
+				},
+				{
+					"type": "custom",
+					"label": "Contact",
+					"url": "/contact"
 				}
 			]
 		}

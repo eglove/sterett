@@ -44,22 +44,43 @@ const seo = page
 		canonical: null,
 	};
 
+/** The storage key behind a Media Library file, when it has one. */
+function storageKeyOf(file: any): string | null {
+	return typeof file?.meta?.storageKey === "string" ? file.meta.storageKey : null;
+}
+
 /** Resolve a Media Library file to a public URL. */
 function fileUrl(file: any): string | null {
 	if (!file) return null;
-	const storageKey =
-		typeof file?.meta?.storageKey === "string" ? file.meta.storageKey : null;
+	const storageKey = storageKeyOf(file);
 	if (storageKey) return Astro.locals.emdash?.getPublicMediaUrl?.(storageKey) ?? null;
 	if (file?.provider === "external") return file?.src ?? null;
 	return file?.url ?? null;
 }
 
 const docs = (documents ?? [])
-	.map((doc) => ({
-		label: doc.data.file_name || doc.data.file?.filename || "Village document",
-		url: fileUrl(doc.data.file),
-		type: doc.data.file?.mimeType ?? null,
-	}))
+	.map((doc) => {
+		const file = doc.data.file;
+		const url = fileUrl(file);
+		const storageKey = storageKeyOf(file);
+		const name = file?.filename || doc.data.file_name || "Village document";
+		return {
+			label: doc.data.file_name || file?.filename || "Village document",
+			url,
+			/* A storage-backed document opens through the site's own document
+			   route, which serves it inline so the browser can display it.
+			   EmDash's media route sends every document as an attachment. */
+			openUrl:
+				storageKey && url
+					? `/documents/${storageKey}?name=${encodeURIComponent(name)}`
+					: url,
+			/* A file kept outside our storage cannot be forced to download:
+			   browsers ignore the download attribute on a cross-origin URL.
+			   Its download link opens a tab instead of leaving the page. */
+			offsite: !storageKey,
+			type: file?.mimeType ?? null,
+		};
+	})
 	.filter((doc) => doc.url);
 ---
 
@@ -96,30 +117,40 @@ const docs = (documents ?? [])
 				) : (
 					<ul class="docs">
 						{docs.map((doc) => (
-							<li>
+							<li class="docs__row">
+								<span class="docs__icon" aria-hidden="true">
+									<svg
+										width="22"
+										height="22"
+										viewBox="0 0 24 24"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="1.5"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									>
+										<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+										<path d="M14 2v6h6" />
+									</svg>
+								</span>
 								<a
-									class="docs__row"
-									href={doc.url}
+									class="docs__label"
+									href={doc.openUrl}
 									target="_blank"
 									rel="noopener noreferrer"
 								>
-									<span class="docs__icon" aria-hidden="true">
-										<svg
-											width="22"
-											height="22"
-											viewBox="0 0 24 24"
-											fill="none"
-											stroke="currentColor"
-											stroke-width="1.5"
-											stroke-linecap="round"
-											stroke-linejoin="round"
-										>
-											<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-											<path d="M14 2v6h6" />
-										</svg>
-									</span>
-									<span class="docs__label">{doc.label}</span>
-									<span class="docs__action">Download</span>
+									{doc.label}
+									<span class="visually-hidden"> (opens in a new tab)</span>
+								</a>
+								<a
+									class="docs__action"
+									href={doc.url}
+									download
+									target={doc.offsite ? "_blank" : undefined}
+									rel={doc.offsite ? "noopener noreferrer" : undefined}
+								>
+									Download
+									<span class="visually-hidden"> {doc.label}</span>
 								</a>
 							</li>
 						))}
@@ -179,13 +210,14 @@ const docs = (documents ?? [])
 		border-bottom: 1px solid var(--line);
 	}
 
+	/* Each row holds two links: the document title opens the file in a new
+	   tab, and the download link beside it saves it. The row itself is not a
+	   link, so the title and the download cannot be clicked by accident. */
 	.docs__row {
 		display: flex;
 		align-items: center;
 		gap: 1rem;
 		padding: 1.25rem 0.5rem;
-		text-decoration: none;
-		color: var(--ink);
 		transition: background 0.15s ease, padding-left 0.15s ease;
 	}
 
@@ -204,14 +236,34 @@ const docs = (documents ?? [])
 	.docs__label {
 		flex: 1;
 		font-size: 1.05rem;
+		color: var(--ink);
+		text-decoration-color: var(--line-strong);
+		text-underline-offset: 0.18em;
+	}
+
+	.docs__label:hover {
+		color: var(--water);
+		text-decoration-color: currentColor;
 	}
 
 	.docs__action {
+		flex: none;
+		padding: 0.4rem 0.7rem;
+		border: 1px solid var(--line-strong);
+		border-radius: var(--radius);
 		font-size: 0.72rem;
+		font-weight: 600;
 		letter-spacing: 0.12em;
 		text-transform: uppercase;
-		color: var(--ink-faint);
-		flex: none;
+		text-decoration: none;
+		color: var(--ink-soft);
+		transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+	}
+
+	.docs__action:hover {
+		background: var(--water-tint);
+		border-color: var(--water);
+		color: var(--water-deep);
 	}
 
 	.empty-note {

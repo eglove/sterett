@@ -1,0 +1,12 @@
+# The retirement worker at /sw.js must never be cached.
+#
+# A browser only ever updates a service worker by fetching its script and
+# comparing bytes. If a CDN or the browser's HTTP cache hands back the old
+# site's worker script, the old worker stays installed and keeps serving its
+# precached HTML, JS and CSS for every page on the domain. So this URL is
+# always revalidated, never stored.
+/sw.js
+  Cache-Control: no-cache, no-store, must-revalidate
+  Pragma: no-cache
+
+# The retirement worker must also not be treated as an immutable asset.

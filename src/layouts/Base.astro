@@ -78,6 +78,9 @@ const pageCtx = createPublicPageContext({
 		<Font cssVariable="--font-display" preload />
 		<Font cssVariable="--font-body" />
 		<EmDashHead page={pageCtx} />
+		<script>
+			import "../scripts/retire-service-worker";
+		</script>
 	</head>
 	<body>
 		<EmDashBodyStart page={pageCtx} />

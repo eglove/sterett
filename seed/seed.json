@@ -24,6 +24,12 @@
 			],
 			"fields": [
 				{
+					"slug": "file_name",
+					"label": "File Name",
+					"type": "string",
+					"required": true
+				},
+				{
 					"slug": "file",
 					"label": "file",
 					"type": "file"
@@ -220,6 +226,7 @@
 				"slug": "village-covenants",
 				"status": "published",
 				"data": {
+					"file_name": "Village Covenants",
 					"file": {
 						"id": "",
 						"provider": "external",

@@ -56,7 +56,7 @@ function fileUrl(file: any): string | null {
 
 const docs = (documents ?? [])
 	.map((doc) => ({
-		label: doc.data.file?.filename ?? "Village document",
+		label: doc.data.file_name || doc.data.file?.filename || "Village document",
 		url: fileUrl(doc.data.file),
 		type: doc.data.file?.mimeType ?? null,
 	}))

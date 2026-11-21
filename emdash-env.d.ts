@@ -10,6 +10,7 @@ export interface Covenant {
   slug: string | null;
   status: string;
   file?: { id: string; url?: string; src?: string; filename?: string; mimeType?: string; size?: number; provider?: string; meta?: Record<string, unknown> };
+  file_name: string;
   createdAt: Date;
   updatedAt: Date;
   publishedAt: Date | null;

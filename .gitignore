@@ -24,6 +24,12 @@ scripts/.cookies.txt
 # Dev-server stdout when the server is started with its output redirected
 .dev-server.log
 
+# Pulled production seed and dev-database backups written by scripts/pull-prod.mjs
+.pull-prod/
+*.pull-prod-backup
+*.pull-prod-backup-wal
+*.pull-prod-backup-shm
+
 # Local scratch / verification artifacts
 _seedtest*.db
 _seedtest*.db-shm

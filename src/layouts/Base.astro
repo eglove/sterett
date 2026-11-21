@@ -87,24 +87,14 @@ const pageCtx = createPublicPageContext({
 		<header class="site-header">
 			<div class="shell site-header__inner">
 				<a class="site-brand" href="/">
-					{
-						siteLogo ? (
-							<img
-								class="site-brand__logo"
-								src={siteLogo.url}
-								alt={siteLogo.alt || siteTitle}
-							/>
-						) : (
-							<img
-								class="site-brand__mark"
-								src="/village-mark.png"
-								alt=""
-								width="512"
-								height="512"
-								aria-hidden="true"
-							/>
-						)
-					}
+					<img
+						class="site-brand__mark"
+						src={siteLogo ? siteLogo.url : "/village-mark.png"}
+						alt={siteLogo?.alt ?? siteTitle}
+						width="512"
+						height="512"
+						aria-hidden="true"
+					/>
 					<span class="site-brand__text">
 						<span class="site-brand__name">{siteTitle}</span>
 						<span class="site-brand__sub">{village.region}</span>

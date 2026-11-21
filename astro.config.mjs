@@ -16,6 +16,10 @@ export default defineConfig({
 	integrations: [
 		react(),
 		emdash({
+			// The public origin. Magic links, invites, recovery mail, sitemaps,
+			// canonical URLs and passkeys all read it, so it must not fall back to
+			// the workers.dev hostname the deployment was set up on.
+			siteUrl: "https://sterettcreekvillagetrustee.com",
 			database: d1({ binding: "DB", session: "auto", coalesce: true }),
 			// Lossless PDF compression happens in src/worker.ts, which rewrites
 			// PDFs with qpdf before the upload route sees them. Storage stays plain R2.
